@@ -132,7 +132,7 @@ Neuzly is a news app that allows users to search for New York Times articles by 
 
 ## Priority Matrix
 
-![alt-text](https://res.cloudinary.com/ditt6ekpx/image/upload/v1621253774/GA%20Project%201/priority_matrix_am9tya.png "Image of priority matrix")
+![alt-text](https://res.cloudinary.com/ditt6ekpx/image/upload/v1621254522/GA%20Project%201/priority_matrix_hr_kyprs5.png "Image of priority matrix")
 
 ## Timeframes
 
