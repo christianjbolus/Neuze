@@ -123,7 +123,7 @@ Neuzly is a news app that allows users to search for New York Times articles by 
 
 |  Day | Deliverable | Status
 |---|---| ---|
-|May 14-16| Prompt / Wireframes / Priority Matrix / Timeframes | Incomplete
+|May 14-16| Prompt / Wireframes / Priority Matrix / Timeframes | Complete
 |May 17| Project Approval / Core Application Structure (HTML, CSS, etc.) | Incomplete
 |May 18| Pseudocode / actual code | Incomplete
 |May 19| Initial Clickable Model  | Incomplete
