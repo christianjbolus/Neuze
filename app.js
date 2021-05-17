@@ -2,8 +2,6 @@ const searchForm = document.querySelector('#search-form');
 const input = document.querySelector('input');
 const articleContainer = document.querySelector('.article-container')
 
-// let keyword = 'bitcoin';
-// let imgPath = null;
 const apiKey = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
 
 const url = {
@@ -15,6 +13,7 @@ const url = {
 searchForm.addEventListener('submit', e => {
     e.preventDefault();
     let keyword = input.value.trim();
+    clearArticles(articleContainer)
     buildSearchComponent(keyword)
 });
 
@@ -62,9 +61,11 @@ async function buildSearchComponent(keyword) {
     // console.log(response)
 }
 
-
-
-
+function clearArticles(element) {
+    while (element.lastChild) {
+        element.removeChild(element.lastChild)
+    }
+}
 
 function buildUrl(url, searchParam) {
     const newUrl = new URL(url);
