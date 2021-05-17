@@ -1,6 +1,6 @@
 const searchForm = document.querySelector('#search-form');
 const input = document.querySelector('input');
-const articleContainer = document.querySelector('.article-container')
+const articleContainer = document.querySelector('.article-container');
 
 const apiKey = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
 
@@ -10,14 +10,12 @@ const url = {
     img: 'http://static01.nyt.com',
 };
 
-
 searchForm.addEventListener('submit', e => {
     e.preventDefault();
     let keyword = input.value.trim();
-    clearArticles(articleContainer)
-    buildSearchComponent(keyword)
+    clearArticles(articleContainer);
+    buildSearchComponent(keyword);
 });
-
 
 async function getTopStories() {
     try {
@@ -30,7 +28,6 @@ async function getTopStories() {
     }
 }
 
-
 async function getSearchResults(keyword) {
     try {
         let reqUrl = buildUrl(url.search, keyword);
@@ -42,11 +39,10 @@ async function getSearchResults(keyword) {
     }
 }
 
-
 async function buildSearchComponent(keyword) {
     let response = await getSearchResults(keyword);
     for (let article of response) {
-        if (article.multimedia[0]) {  //! WORK ON THIS CONDITIONAL
+        if (article.multimedia[0]) {    //! WORK ON THIS CONDITIONAL
             let component = `
             <div class="card">
                 <div class="card-img" style="background-image: url('${url.img}/${article.multimedia[0].url}')"></div>
@@ -56,23 +52,38 @@ async function buildSearchComponent(keyword) {
                 </div>
             </div>
             `;
-            articleContainer.insertAdjacentHTML('beforeend', component)
+            articleContainer.insertAdjacentHTML('beforeend', component);
         }
     }
 }
 
-
-function clearArticles(element) {
-    while (element.lastChild) {
-        element.removeChild(element.lastChild)
+async function buildMainComponent() {
+    let response = await getTopStories();
+    for (let article of response) {
+        if (article.multimedia[0]) {
+            let component = `
+            <div class="card">
+                <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
+                <div class="card-body">
+                    <h3 class="headline">${article.title}</h3>
+                    <p class="publish-date">${formatDate(article.published_date)}</p>
+                </div>
+            </div>
+            `;
+            articleContainer.insertAdjacentHTML('beforeend', component);
+        }
     }
 }
 
+function clearArticles(element) {
+    while (element.lastChild) {
+        element.removeChild(element.lastChild);
+    }
+}
 
 function formatDate(date) {
-    let formattedDate = new Date(date).toDateString().slice(4)
-    return formattedDate
-
+    let formattedDate = new Date(date).toDateString().slice(4);
+    return formattedDate;
 }
 
 function buildUrl(url, searchParam) {
@@ -81,3 +92,5 @@ function buildUrl(url, searchParam) {
     if (searchParam) newUrl.searchParams.append('q', searchParam);
     return newUrl;
 }
+
+buildSearchComponent();
