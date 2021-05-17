@@ -134,10 +134,10 @@ Neuzly is a news app that allows users to search for New York Times articles by 
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
-| Basic HTML structure | H | 2 hrs |  |  |
+| Basic HTML structure | H | 2 hrs | 2hr | 1hr |
 | Establish CSS classes & ids | H | 1.5 hrs |  |  |
 | Test API endpoints | H | 2 hrs |  |  |
-| App logic for bulding urls | H | 2 hr | |  |  |
+| App logic for bulding urls | H | 2 hr | 2hr | 1hr |
 | App logic for API request | H | 2 hrs |  |  |
 | App logic for parsing data | H | 1 hr |  |  |
 | App logic for building HTML components | H | 3 hrs |  |
