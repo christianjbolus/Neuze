@@ -1,8 +1,4 @@
-# Project Overview
-
-## Neuzly
-
-The name of your project with deployed URL.
+# Neuzly
 
 ## Project Description
 
@@ -126,8 +122,8 @@ Neuzly is a news app that allows users to search for New York Times articles by 
 |May 14-16| Prompt / Wireframes / Priority Matrix / Timeframes | Complete
 |May 17| Project Approval / Core Application Structure (HTML, CSS, etc.) | Incomplete
 |May 18| Pseudocode / actual code | Incomplete
-|May 19| Initial Clickable Model  | Incomplete
-|May 20| MVP | Incomplete
+|May 19| Initial Clickable Model / MVP  | Incomplete
+|May 20| Advanced CSS / Deployment | Incomplete
 |May 21| Presentations | Incomplete
 
 ## Priority Matrix
