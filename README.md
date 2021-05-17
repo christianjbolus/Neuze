@@ -14,9 +14,9 @@ Neuzly is a news app that allows users to search for New York Times articles by 
 
 ## Wireframes
 
-![alt-text](https://res.cloudinary.com/ditt6ekpx/image/upload/v1621202666/GA%20Project%201/iPhone_12_Pro_Max_1_sbhnj0.png "Image of main view of app")
+![alt-text](https://res.cloudinary.com/ditt6ekpx/image/upload/v1621217750/GA%20Project%201/iPhone_12_Pro_Max_1_vsg616.png "Image of main view of app")
 
-![alt-text](https://res.cloudinary.com/ditt6ekpx/image/upload/v1621202669/GA%20Project%201/iPhone_12_Pro_Max_2_vvvhqy.png "Image of modal window")
+![alt-text](https://res.cloudinary.com/ditt6ekpx/image/upload/v1621217750/GA%20Project%201/iPhone_12_Pro_Max_2_fxh5gw.png "Image of modal window")
 
 ### MVP/PostMVP
 
@@ -84,3 +84,10 @@ function reverse(string) {
 
 ## Change Log
  Use this section to document what changes were made and the reasoning behind those changes.  
+
+
+
+
+
+
+
