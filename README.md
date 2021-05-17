@@ -1,8 +1,8 @@
-# Neuzly
+# Neuze
 
 ## Project Description
 
-Neuzly is a news app that allows users to search for New York Times articles by keyword. 
+Neuze is a news app that allows users to search for New York Times articles by keyword. 
 
 ## API and Data Sample
 
@@ -134,14 +134,14 @@ Neuzly is a news app that allows users to search for New York Times articles by 
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
-| Basic HTML structure | H | 2 hrs | 2hr | 1hr |
+| Basic HTML structure | H | 2 hrs | 2hr | 1 hr |
 | Establish CSS classes & ids | H | 1.5 hrs |  |  |
 | Test API endpoints | H | 2 hrs |  |  |
-| App logic for bulding urls | H | 2 hr | 2hr | 1hr |
-| App logic for API request | H | 2 hrs |  |  |
-| App logic for parsing data | H | 1 hr |  |  |
-| App logic for building HTML components | H | 3 hrs |  |
-| App logic for appending components | H | 1 hr |  |  |
+| App logic for bulding urls | H | 2 hr | 2 hr | 1 hr |
+| App logic for API request | H | 2 hrs | 5 hr | 1 hr |
+| App logic for parsing data | H | 1 hr |  | 1 hr |
+| App logic for building HTML components | H | 3 hrs | 5 hr | 1 hr |
+| App logic for appending components | H | 1 hr | 5 hr | 1 hr |
 | App logic for modal | M | 3 hrs |  |  |
 | Style body app body | H | 3 hrs |  |  |
 | Style article cards | H | 3 hrs |  |  |
