@@ -10,12 +10,14 @@ const url = {
     img: 'http://static01.nyt.com',
 };
 
+
 searchForm.addEventListener('submit', e => {
     e.preventDefault();
     let keyword = input.value.trim();
     clearArticles(articleContainer)
     buildSearchComponent(keyword)
 });
+
 
 async function getTopStories() {
     try {
@@ -28,6 +30,7 @@ async function getTopStories() {
     }
 }
 
+
 async function getSearchResults(keyword) {
     try {
         let reqUrl = buildUrl(url.search, keyword);
@@ -39,8 +42,6 @@ async function getSearchResults(keyword) {
     }
 }
 
-// getTopStories();
-// getSearchResults(keyword)
 
 async function buildSearchComponent(keyword) {
     let response = await getSearchResults(keyword);
@@ -51,20 +52,27 @@ async function buildSearchComponent(keyword) {
                 <div class="card-img" style="background-image: url('${url.img}/${article.multimedia[0].url}')"></div>
                 <div class="card-body">
                     <h3 class="headline">${article.headline.main}</h3>
-                    <p class="publish-date">${article.pub_date}</p>
+                    <p class="publish-date">${formatDate(article.pub_date)}</p>
                 </div>
             </div>
             `;
             articleContainer.insertAdjacentHTML('beforeend', component)
         }
     }
-    // console.log(response)
 }
+
 
 function clearArticles(element) {
     while (element.lastChild) {
         element.removeChild(element.lastChild)
     }
+}
+
+
+function formatDate(date) {
+    let formattedDate = new Date(date).toDateString().slice(4)
+    return formattedDate
+
 }
 
 function buildUrl(url, searchParam) {
@@ -73,5 +81,3 @@ function buildUrl(url, searchParam) {
     if (searchParam) newUrl.searchParams.append('q', searchParam);
     return newUrl;
 }
-
-
