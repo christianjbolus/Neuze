@@ -74,7 +74,6 @@ body {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2)
-
 }
 
 .card-img {
@@ -106,6 +105,13 @@ body {
     text-transform: uppercase;
 }
 
+.lead-paragraph {
+    font-weight: 300;
+    font-size: 0.9rem;
+    line-height: 18px;
+    text-align: left;
+}
+
 .error {
     width: 75%;
     height: 30vh;
@@ -119,21 +125,24 @@ body {
 .modal-container {
     position: absolute;
     top: 0;
+    left: 0;
     display: flex;
+    justify-content: center;
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.7)
 }
 
 .modal {
- width: 90%;
- height: 75%;
- display: flex;
- flex-direction: column;
- justify-content: space-between;
- margin: auto;
- border-radius: 10px;
- background-color: white;
+    width: 90%;
+    height: 575px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: auto;
+    border-radius: 10px;
+    background-color: white;
+    position: fixed
 }
 
 .modal-img {

@@ -61,6 +61,7 @@ async function buildSearchComponent(keyword) {
                 <div class="card-img" style="background-image: url('${url.img}/${article.multimedia[0].url}')"></div>
                 <div class="card-body">
                     <h3 class="headline">${article.headline.main}</h3>
+                    <p class="byline hidden">${article.byline.original}</p>
                     <p class="lead-paragraph hidden">${article.lead_paragraph}</p>
                     <p class="publish-date">${formatDate(article.pub_date)}</p>
                 </div>
@@ -95,8 +96,8 @@ function listenForModal() {
     const cards = document.querySelectorAll('.card')
     for (let card of cards) {
         card.addEventListener('click', function() {
-            // renderModal(this)
-            console.log(this)
+            renderModal(this)
+            // console.log(this)
         })
     }
 }
@@ -128,12 +129,12 @@ function renderModal(element) {
         <div class="modal">
             <div class="modal-img" style="background-image: url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80')"></div>
             <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
-            <h4 class="byline">By Christian Bolus</h4>
+            <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
             <p class="publish-date">${element.lastElementChild.lastElementChild.textContent}</p>
-            <p class="abstract">This is the first paragraph of the article that will give readers a preview of the article's content</p>
-            <button id="modal-btn" class="btn" >Full Article</button>
+            <p class="lead-paragraph">${element.lastElementChild.children[2].textContent}</p>
+            <button id="modal-btn" class="btn">Full Article</button>
         </div>
-    </div>
+    </div> 
     `
     articleContainer.insertAdjacentHTML('afterbegin', modal)
 }
@@ -144,3 +145,5 @@ function renderError() {
 }
 
 // buildMainComponent()
+
+
