@@ -27,16 +27,25 @@ body {
     margin-bottom: 20px;
 }
 
+#search-form {
+    display: flex;
+    margin: 10px auto;
+    justify-content: space-evenly;
+    width: 90%;
+}
+
 #search-input {
-    padding: 5px;
-    border: 1px solid gray;
+    padding: 8px;
+    border: none;
+    background-color: #f2f2f2;
     border-radius: 5px;
 }
 
 .btn {
     background-color: #01A1C7;
     color: white;
-    padding: 5px 10px;
+    height: 31px;
+    padding: 5px 15px;
     border: none;
     border-radius: 5px;
 }
@@ -44,7 +53,10 @@ body {
 .validation {
     color: red;
     font-size: 0.8rem;
+    text-align: left;
+    margin-top: 5px;
     display: none;
+    transition: 500ms;
 }
 
 .article-container {
