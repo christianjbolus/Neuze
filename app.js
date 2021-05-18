@@ -1,5 +1,6 @@
 const searchForm = document.querySelector('#search-form');
 const input = document.querySelector('input');
+const validation = document.querySelector('.validation')
 const articleContainer = document.querySelector('.article-container');
 
 const apiKey = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
@@ -10,12 +11,19 @@ const url = {
     img: 'http://static01.nyt.com',
 };
 
+
 searchForm.addEventListener('submit', e => {
     e.preventDefault();
-    let keyword = input.value.trim();
-    clearArticles(articleContainer);
-    buildSearchComponent(keyword);
+    if (input.value === '') {
+        validation.style.display = 'block'
+    } else {
+        validation.style.display = 'none'
+        let keyword = input.value.trim();
+        clearArticles(articleContainer);
+        buildSearchComponent(keyword);
+    }
 });
+
 
 async function getTopStories() {
     try {
@@ -28,16 +36,19 @@ async function getTopStories() {
     }
 }
 
+
 async function getSearchResults(keyword) {
     try {
         let reqUrl = buildUrl(url.search, keyword);
         const res = await axios.get(reqUrl);
         let data = res.data.response.docs;
+        if (!data[0]) renderError()
         return data;
     } catch (err) {
         console.log(err);
     }
 }
+
 
 async function buildSearchComponent(keyword) {
     let response = await getSearchResults(keyword);
@@ -57,6 +68,7 @@ async function buildSearchComponent(keyword) {
     }
 }
 
+
 async function buildMainComponent() {
     let response = await getTopStories();
     for (let article of response) {
@@ -75,16 +87,19 @@ async function buildMainComponent() {
     }
 }
 
+
 function clearArticles(element) {
     while (element.lastChild) {
         element.removeChild(element.lastChild);
     }
 }
 
+
 function formatDate(date) {
     let formattedDate = new Date(date).toDateString().slice(4);
     return formattedDate;
 }
+
 
 function buildUrl(url, searchParam) {
     const newUrl = new URL(url);
@@ -93,4 +108,28 @@ function buildUrl(url, searchParam) {
     return newUrl;
 }
 
-buildSearchComponent();
+
+// async function buildComponent() {
+//     let response = await getTopStories();
+//     for (let article of response) {
+//         if (article.multimedia[0]) {
+//             let component = `
+//             <div class="card">
+//                 <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
+//                 <div class="card-body">
+//                     <h3 class="headline">${article.title}</h3>
+//                     <p class="publish-date">${formatDate(article.published_date)}</p>
+//                 </div>
+//             </div>
+//             `;
+//             articleContainer.insertAdjacentHTML('beforeend', component);
+//         }
+//     }
+// }
+
+function renderError() {
+    let error = '<div class="error"></div>'
+    articleContainer.insertAdjacentHTML('afterbegin', error)
+}
+
+buildMainComponent()

@@ -6,20 +6,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="reset.css" />
         <link rel="stylesheet" href="style.css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet" />
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script defer src="app.js"></script>
         <title>Neuze</title>
     </head>
     <body>
         <header>
-            <h1>Neuze</h1>
+            <h1 id="title">Neuze</h1>
             <div class="img-container"></div>
         </header>
-        <h2>Top Stories</h2>
+        <h2 id="top-stories">Top Stories</h2>
         <form id="search-form" action="#">
             <input id="search-input" type="text" />
             <button id="search-btn" class="btn">Search</button>
         </form>
+        <p class="validation">Enter a search term</p>
         <section class="article-container"></section>
     </body>
 </html>
