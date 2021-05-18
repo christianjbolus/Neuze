@@ -3,7 +3,7 @@ const input = document.querySelector('input');
 const validation = document.querySelector('.validation')
 const articleContainer = document.querySelector('.article-container');
 
-const apiKey = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
+const API_KEY = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
 
 const url = {
     base: 'https://api.nytimes.com/svc/topstories/v2/home.json',
@@ -21,6 +21,7 @@ searchForm.addEventListener('submit', e => {
         let keyword = input.value.trim();
         clearArticles(articleContainer);
         buildSearchComponent(keyword);
+        input.value = ''
     }
 });
 
@@ -103,29 +104,11 @@ function formatDate(date) {
 
 function buildUrl(url, searchParam) {
     const newUrl = new URL(url);
-    newUrl.searchParams.append('api-key', apiKey);
+    newUrl.searchParams.append('api-key', API_KEY);
     if (searchParam) newUrl.searchParams.append('q', searchParam);
     return newUrl;
 }
 
-
-// async function buildComponent() {
-//     let response = await getTopStories();
-//     for (let article of response) {
-//         if (article.multimedia[0]) {
-//             let component = `
-//             <div class="card">
-//                 <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
-//                 <div class="card-body">
-//                     <h3 class="headline">${article.title}</h3>
-//                     <p class="publish-date">${formatDate(article.published_date)}</p>
-//                 </div>
-//             </div>
-//             `;
-//             articleContainer.insertAdjacentHTML('beforeend', component);
-//         }
-//     }
-// }
 
 function renderError() {
     let error = '<div class="error"></div>'
