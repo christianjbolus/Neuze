@@ -83,6 +83,8 @@ async function buildMainComponent() {
                 <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
                 <div class="card-body">
                     <h3 class="headline">${article.title}</h3>
+                    <p class="byline hidden">${article.byline}</p>
+                    <p class="lead-paragraph hidden">${article.abstract}</p>
                     <p class="publish-date">${formatDate(article.published_date)}</p>
                 </div>
             </div>
@@ -90,6 +92,7 @@ async function buildMainComponent() {
             articleContainer.insertAdjacentHTML('beforeend', component);
         }
     }
+    listenForModal()
 }
 
 function listenForModal() {
@@ -97,7 +100,7 @@ function listenForModal() {
     for (let card of cards) {
         card.addEventListener('click', function() {
             renderModal(this)
-            // console.log(this)
+            console.log(this)
         })
     }
 }
@@ -123,27 +126,31 @@ function buildUrl(url, searchParam) {
     return newUrl;
 }
 
+
 function renderModal(element) {
     let modal = `
     <div class="modal-container">
         <div class="modal">
-            <div class="modal-img" style="background-image: url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80')"></div>
-            <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
-            <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
-            <p class="publish-date">${element.lastElementChild.lastElementChild.textContent}</p>
-            <p class="lead-paragraph">${element.lastElementChild.children[2].textContent}</p>
-            <button id="modal-btn" class="btn">Full Article</button>
+            <div class="modal-img" style="background-image: ${element.firstElementChild.style.backgroundImage.replaceAll('"', '\'')}"></div>
+            <div class="modal-body">
+                <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
+                <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
+                <p class="modal-publish-date">${element.lastElementChild.lastElementChild.textContent}</p>
+                <p class="lead-paragraph">${element.lastElementChild.children[2].textContent}</p>
+                <button id="modal-btn" class="btn">Full Article</button>    
+            </div
         </div>
     </div> 
     `
     articleContainer.insertAdjacentHTML('afterbegin', modal)
 }
 
+
 function renderError() {
     let error = '<div class="error"></div>'
     articleContainer.insertAdjacentHTML('afterbegin', error)
 }
 
-// buildMainComponent()
+buildMainComponent()
 
 

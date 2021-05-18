@@ -98,6 +98,12 @@ body {
     line-height: 20px
 }
 
+.byline {
+    font-weight: 700;
+    line-height: 20px;
+
+}
+
 .publish-date {
     color: #727272;
     font-size: 0.7rem;
@@ -128,6 +134,7 @@ body {
     left: 0;
     display: flex;
     justify-content: center;
+    align-items: center;
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.7)
@@ -138,7 +145,6 @@ body {
     height: 575px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     margin: auto;
     border-radius: 10px;
     background-color: white;
@@ -151,17 +157,29 @@ body {
     background-position: center;
     border-radius: 10px;
     margin-bottom: 20px;
+    justify-self: flex-start;
 }
 
 .modal-body {
+    height: 305px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    padding: 15px
 }
 
 .modal-headline {
     font-size: 1.5rem;
     font-weight: 700;
+    line-height: 30px;
+}
+
+.modal-publish-date {
+    color: #727272;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 #modal-btn {
