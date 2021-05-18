@@ -113,6 +113,8 @@ Neuze is a news app that allows users to search for New York Times articles by k
 #### PostMVP  
 
 - Add modal window to display article abstract, byline and link to full article in addition to title, image and publish date
+- Add basic form validation
+- Add basic error handling
 - Allow users to search book/movie reviews
 
 ## Project Schedule
@@ -134,18 +136,18 @@ Neuze is a news app that allows users to search for New York Times articles by k
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
-| Basic HTML structure | H | 2 hrs | 2hr | 1 hr |
-| Establish CSS classes & ids | H | 1.5 hrs |  |  |
+| Basic HTML structure | H | 2 hrs | 2 hrs | 1 hr |
+| Establish CSS classes & ids | H | 1.5 hrs | 2 hrs | 2 hrs |
 | Test API endpoints | H | 2 hrs |  |  |
 | App logic for bulding urls | H | 2 hr | 2 hr | 1 hr |
 | App logic for API request | H | 2 hrs | 5 hr | 1 hr |
 | App logic for parsing data | H | 1 hr |  | 1 hr |
 | App logic for building HTML components | H | 3 hrs | 5 hr | 1 hr |
 | App logic for appending components | H | 1 hr | 5 hr | 1 hr |
-| App logic for modal | M | 3 hrs |  |  |
-| Style body app body | H | 3 hrs |  |  |
-| Style article cards | H | 3 hrs |  |  |
-| Style modal | M | 3 hrs |  |  |
+| App logic for modal | M | 3 hrs | 12 hrs | 4 hrs |
+| Style body app body | H | 3 hrs | 9 hrs | 2 hrs |
+| Style article cards | H | 3 hrs | 8 hrs | 1 hr |
+| Style modal | M | 3 hrs | 15 hrs | 4 hrs |
 | Media query app body | H | 3 hrs |  |  |
 | Media query article cards | H | 3 hrs |  |  |
 | Media query modal | M | 3 hrs |  |  |
