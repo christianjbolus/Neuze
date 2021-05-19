@@ -67,7 +67,6 @@ body {
     justify-content: center;
     align-items: center;
     margin: 20px auto;
-    width: 90%;
 }
 
 .card {
@@ -77,6 +76,7 @@ body {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
     max-width: 400px;
 }
 
@@ -105,6 +105,7 @@ body {
 .byline {
     font-weight: 700;
     line-height: 20px;
+    margin-bottom: 10px
 
 }
 
@@ -120,6 +121,7 @@ body {
     font-size: 0.9rem;
     line-height: 18px;
     text-align: left;
+    margin-bottom: 20px;
 }
 
 .error {
@@ -145,9 +147,7 @@ body {
 .modal {
     width: 400px;
     max-width: 90%;
-    height: 575px;
-    display: flex;
-    flex-direction: column;
+    min-height: 500px;
     margin: auto;
     border-radius: 10px;
     background-color: white;
@@ -163,22 +163,18 @@ body {
     background-position: center;
     border-radius: 10px;
     margin-bottom: 20px;
-    justify-self: flex-start;
 }
 
 .modal-body {
-    height: 305px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px
+    min-height: 200px;
+    padding: 15px 15px 30px 15px;
 }
 
 .modal-headline {
     font-size: 1.5rem;
     font-weight: 700;
-    line-height: 30px;
+    line-height: 25px;
+    margin-bottom: 10px
 }
 
 .modal-publish-date {
@@ -186,12 +182,12 @@ body {
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
+    margin-bottom: 15px;
 }
 
 #modal-btn {
     width: 150px;
-    align-self: center;
-    margin-bottom: 10px;
+    min-height: 31px;
 }
 
 .hidden {
@@ -244,11 +240,13 @@ body {
         background-size: cover;
         background-position: center;
         border-radius: 5px;
+        margin-bottom: 20px
     }
 
     .card-body {
         text-align: center;
-        justify-content: space-between;
+        justify-content: flex-start;
+        height: 50%;
         width: 100%;
     }
 
