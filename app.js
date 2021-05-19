@@ -51,6 +51,28 @@ async function getSearchResults(keyword) {
     }
 }
 
+async function buildMainComponent() {
+    let response = await getTopStories();
+    for (let article of response) {
+        if (article.multimedia[0]) {
+            let component = `
+            <div class="card">
+                <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
+                <div class="card-body">
+                    <h3 class="headline">${article.title}</h3>
+                    <p class="byline hidden">${article.byline}</p>
+                    <p class="lead-paragraph hidden">${article.abstract}</p>
+                    <p class="publish-date">${formatDate(article.published_date)}</p>
+                    <p class="article-link hidden">${article.url}</p>
+                </div>
+            </div>
+            `;
+            articleContainer.insertAdjacentHTML('beforeend', component);
+        }
+    }
+    listenForRenderModal()
+}
+
 
 async function buildSearchComponent(keyword) {
     let response = await getSearchResults(keyword);
@@ -64,6 +86,7 @@ async function buildSearchComponent(keyword) {
                     <p class="byline hidden">${article.byline.original}</p>
                     <p class="lead-paragraph hidden">${article.lead_paragraph}</p>
                     <p class="publish-date">${formatDate(article.pub_date)}</p>
+                    <p class="article-link hidden">${article.web_url}</p>
                 </div>
             </div>
             `;
@@ -73,27 +96,6 @@ async function buildSearchComponent(keyword) {
     listenForRenderModal()
 }
 
-
-async function buildMainComponent() {
-    let response = await getTopStories();
-    for (let article of response) {
-        if (article.multimedia[0]) {
-            let component = `
-            <div class="card">
-                <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
-                <div class="card-body">
-                    <h3 class="headline">${article.title}</h3>
-                    <p class="byline hidden">${article.byline}</p>
-                    <p class="lead-paragraph hidden">${article.abstract}</p>
-                    <p class="publish-date">${formatDate(article.published_date)}</p>
-                </div>
-            </div>
-            `;
-            articleContainer.insertAdjacentHTML('beforeend', component);
-        }
-    }
-    listenForRenderModal()
-}
 
 function listenForRenderModal() {
     const cards = document.querySelectorAll('.card')
@@ -135,9 +137,9 @@ function renderModal(element) {
             <div class="modal-body">
                 <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
                 <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
-                <p class="modal-publish-date">${element.lastElementChild.lastElementChild.textContent}</p>
+                <p class="modal-publish-date">${element.lastElementChild.children[3].textContent}</p>
                 <p class="lead-paragraph">${element.lastElementChild.children[2].textContent}</p>
-                <button id="modal-btn" class="btn">Full Article</button>    
+                <a href="${element.lastElementChild.lastElementChild.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>    
             </div
         </div>
     </div> 
