@@ -70,7 +70,7 @@ async function buildSearchComponent(keyword) {
             articleContainer.insertAdjacentHTML('beforeend', component);
         }
     }
-    listenForModal()
+    listenForRenderModal()
 }
 
 
@@ -92,15 +92,15 @@ async function buildMainComponent() {
             articleContainer.insertAdjacentHTML('beforeend', component);
         }
     }
-    listenForModal()
+    listenForRenderModal()
 }
 
-function listenForModal() {
+function listenForRenderModal() {
     const cards = document.querySelectorAll('.card')
     for (let card of cards) {
         card.addEventListener('click', function() {
             renderModal(this)
-            console.log(this)
+            listenForCloseModal()
         })
     }
 }
@@ -143,6 +143,11 @@ function renderModal(element) {
     </div> 
     `
     articleContainer.insertAdjacentHTML('afterbegin', modal)
+    let modalContainer = document.querySelector('.modal-container')
+    setTimeout(() => {
+        modalContainer.classList.add('active')
+    }, 100)
+    
 }
 
 
@@ -151,6 +156,15 @@ function renderError() {
     articleContainer.insertAdjacentHTML('afterbegin', error)
 }
 
+function listenForCloseModal() {
+    const modal = document.querySelector('.modal-container')
+    window.addEventListener('click', (e) => {
+        if (e.target == modal) {
+            modal.classList.remove('active')
+            setTimeout(() => {
+                articleContainer.firstElementChild.remove()
+            }, 300)
+        }
+    })
+}
 buildMainComponent()
-
-
