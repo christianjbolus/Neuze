@@ -139,7 +139,8 @@ function renderModal(element) {
                 <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
                 <p class="modal-publish-date">${element.lastElementChild.children[3].textContent}</p>
                 <p class="lead-paragraph">${element.lastElementChild.children[2].textContent}</p>
-                <a href="${element.lastElementChild.lastElementChild.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>    
+                <a href="${element.lastElementChild.lastElementChild.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
+                <i id="close" class="fas fa-times"></i>    
             </div
         </div>
     </div> 
@@ -160,8 +161,9 @@ function renderError() {
 
 function listenForCloseModal() {
     const modal = document.querySelector('.modal-container')
+    const close = document.querySelector('#close')
     window.addEventListener('click', (e) => {
-        if (e.target == modal) {
+        if (e.target == modal || e.target == close) {
             modal.classList.remove('active')
             setTimeout(() => {
                 articleContainer.firstElementChild.remove()
