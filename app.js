@@ -172,3 +172,23 @@ function listenForCloseModal() {
     })
 }
 buildMainComponent()
+
+
+// ========================================================================
+//* PSEUDOCODE FOR READLIST
+
+// Create event listener on modal bookmark icon
+
+// Create object to store aticle data
+
+// Store article data in object
+
+// Covert object to JSON string and save in local storage
+
+// Create read list button in nav
+
+// Create function to pull from all articles from local storage
+
+// Parse each object (JSON.parse) and push into readlist array
+
+// Render each article object.
