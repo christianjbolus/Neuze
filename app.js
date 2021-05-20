@@ -1,8 +1,9 @@
+const home = document.querySelector('#title')
+const myArticles = document.querySelector('#my-articles');
 const searchForm = document.querySelector('#search-form');
 const input = document.querySelector('input');
 const validation = document.querySelector('.validation');
 const articleContainer = document.querySelector('.article-container');
-const myArticles = document.querySelector('#my-articles');
 
 const API_KEY = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
 // Save state of article ids.
@@ -14,12 +15,18 @@ const URLS = {
     img: 'http://static01.nyt.com',
 };
 
+home.addEventListener('click', async () => {
+    clearArticles(articleContainer);
+    let topStories = await getTopStories()
+    renderArticleComponents(topStories);
+})
+
 searchForm.addEventListener('submit', e => {
     e.preventDefault();
     if (input.value === '') {
-        validation.style.display = 'block';
+        validation.classList.add('active');
     } else {
-        validation.style.display = 'none';
+        validation.classList.remove('active')
         let keyword = input.value.trim();
         clearArticles(articleContainer);
         renderSearchComponent(keyword);
@@ -30,7 +37,7 @@ searchForm.addEventListener('submit', e => {
 myArticles.addEventListener('click', () => {
     let savedArticles = getSavedArticles();
     clearArticles(articleContainer);
-    renderSavedArticles(savedArticles);
+    renderArticleComponents(savedArticles);
 });
 
 function listenForRenderModal() {
@@ -73,33 +80,11 @@ async function getSearchResults(keyword) {
         let reqUrl = buildUrl(URLS.search, keyword);
         const res = await axios.get(reqUrl);
         let data = res.data.response.docs;
-        if (!data[0]) renderError();
+        if (!data[0]) renderError("Couldn't find what you're looking for");
         return data;
     } catch (err) {
         console.log(err);
     }
-}
-
-async function renderMainComponent() {
-    let response = await getTopStories();
-    for (let article of response) {
-        if (article.multimedia[0]) {
-            let component = `
-                <div class="card">
-                    <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
-                    <div class="card-body">
-                        <h3 class="headline">${article.title}</h3>
-                        <p class="byline hidden">${article.byline}</p>
-                        <p class="publish-date">${formatDate(article.published_date)}</p>
-                        <p class="lead-paragraph hidden">${article.abstract}</p>
-                        <p class="article-link hidden">${article.url}</p>
-                    </div>
-                </div>
-                `;
-            articleContainer.insertAdjacentHTML('beforeend', component);
-        }
-    }
-    listenForRenderModal();
 }
 
 
@@ -125,7 +110,7 @@ async function renderSearchComponent(keyword) {
     listenForRenderModal();
 }
 
-function renderSavedArticles(response) {
+function renderArticleComponents(response) {
     for (let article of response) {
         if (article.multimedia[0]) {
             let component = `
@@ -137,8 +122,8 @@ function renderSavedArticles(response) {
                         <p class="publish-date">${formatDate(article.published_date)}</p>
                         <p class="lead-paragraph hidden">${article.abstract}</p>
                         <p class="article-link hidden">${article.url}</p>
-                        <p class="hidden">${article.id}</p>
-                        <p class="hidden">${article.saved}</p>
+                        <p class="hidden">${article?.id}</p>
+                        <p class="hidden">${article?.saved}</p>
                     </div>
                 </div>
                 `;
@@ -194,7 +179,7 @@ function buildUrl(url, searchParam) {
 }
 
 function renderError() {
-    let error = '<div class="error"></div>';
+    let error = `<div class="error"></div>`;
     articleContainer.insertAdjacentHTML('afterbegin', error);
 }
 
@@ -212,7 +197,10 @@ function toggleClass(element, class1, class2) {
     }
 }
 
-// renderMainComponent()
+(async () => {
+    let topStories = await getTopStories()
+    renderArticleComponents(topStories)
+})()
 
 //========================================================================
 //* PSEUDOCODE FOR READLIST
