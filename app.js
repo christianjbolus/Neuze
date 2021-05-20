@@ -2,12 +2,12 @@ const searchForm = document.querySelector('#search-form');
 const input = document.querySelector('input');
 const validation = document.querySelector('.validation')
 const articleContainer = document.querySelector('.article-container');
-
+const myArticles = document.querySelector('#my-articles')
 
 const API_KEY = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
 let READ_LIST = 0
 
-const url = {
+const URLS = {
     base: 'https://api.nytimes.com/svc/topstories/v2/home.json',
     search: `https://api.nytimes.com/svc/search/v2/articlesearch.json`,
     img: 'http://static01.nyt.com',
@@ -26,6 +26,13 @@ searchForm.addEventListener('submit', e => {
         input.value = ''
     }
 });
+
+
+myArticles.addEventListener('click', () => {
+    let savedArticles = getSavedArticles();
+    clearArticles(articleContainer)
+    renderSavedArticles(savedArticles)
+})
 
 
 function listenForRenderModal() {
@@ -56,7 +63,7 @@ function listenForCloseModal() {
 
 async function getTopStories() {
     try {
-        let reqUrl = buildUrl(url.base);
+        let reqUrl = buildUrl(URLS.base);
         const res = await axios.get(reqUrl);
         let data = res.data.results;
         return data;
@@ -68,7 +75,7 @@ async function getTopStories() {
 
 async function getSearchResults(keyword) {
     try {
-        let reqUrl = buildUrl(url.search, keyword);
+        let reqUrl = buildUrl(URLS.search, keyword);
         const res = await axios.get(reqUrl);
         let data = res.data.response.docs;
         if (!data[0]) renderError()
@@ -78,22 +85,45 @@ async function getSearchResults(keyword) {
     }
 }
 
+
 async function renderMainComponent() {
     let response = await getTopStories();
     for (let article of response) {
         if (article.multimedia[0]) {
             let component = `
-            <div class="card">
-                <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
-                <div class="card-body">
-                    <h3 class="headline">${article.title}</h3>
-                    <p class="byline hidden">${article.byline}</p>
-                    <p class="publish-date">${formatDate(article.published_date)}</p>
-                    <p class="lead-paragraph hidden">${article.abstract}</p>
-                    <p class="article-link hidden">${article.url}</p>
+                <div class="card">
+                    <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
+                    <div class="card-body">
+                        <h3 class="headline">${article.title}</h3>
+                        <p class="byline hidden">${article.byline}</p>
+                        <p class="publish-date">${formatDate(article.published_date)}</p>
+                        <p class="lead-paragraph hidden">${article.abstract}</p>
+                        <p class="article-link hidden">${article.url}</p>
+                    </div>
                 </div>
-            </div>
-            `;
+                `;
+            articleContainer.insertAdjacentHTML('beforeend', component);
+        }
+    }
+    listenForRenderModal()
+}
+
+
+function renderSavedArticles(response) {
+    for (let article of response) {
+        if (article.multimedia[0]) {
+            let component = `
+                <div class="card">
+                    <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
+                    <div class="card-body">
+                        <h3 class="headline">${article.title}</h3>
+                        <p class="byline hidden">${article.byline}</p>
+                        <p class="publish-date">${formatDate(article.published_date)}</p>
+                        <p class="lead-paragraph hidden">${article.abstract}</p>
+                        <p class="article-link hidden">${article.url}</p>
+                    </div>
+                </div>
+                `;
             articleContainer.insertAdjacentHTML('beforeend', component);
         }
     }
@@ -106,17 +136,17 @@ async function renderSearchComponent(keyword) {
     for (let article of response) {
         if (article.multimedia[0]) {    //! WORK ON THIS CONDITIONAL
             let component = `
-            <div class="card">
-                <div class="card-img" style="background-image: url('${url.img}/${article.multimedia[0].url}')"></div>
-                <div class="card-body">
-                    <h3 class="headline">${article.headline.main}</h3>
-                    <p class="byline hidden">${article.byline.original}</p>
-                    <p class="publish-date">${formatDate(article.pub_date)}</p>
-                    <p class="lead-paragraph hidden">${article.lead_paragraph}</p>      
-                    <p class="article-link hidden">${article.web_url}</p>
+                <div class="card">
+                    <div class="card-img" style="background-image: url('${URLS.img}/${article.multimedia[0].url}')"></div>
+                    <div class="card-body">
+                        <h3 class="headline">${article.headline.main}</h3>
+                        <p class="byline hidden">${article.byline.original}</p>
+                        <p class="publish-date">${formatDate(article.pub_date)}</p>
+                        <p class="lead-paragraph hidden">${article.lead_paragraph}</p>      
+                        <p class="article-link hidden">${article.web_url}</p>
+                    </div>
                 </div>
-            </div>
-            `;
+                `;
             articleContainer.insertAdjacentHTML('beforeend', component);
         }
     }
@@ -126,29 +156,28 @@ async function renderSearchComponent(keyword) {
 
 function renderModal(element) {
     let modal = `
-    <div class="modal-container">
-        <div class="modal">
-            <div class="modal-img" style="background-image: ${element.firstElementChild.style.backgroundImage.replaceAll('"', '\'')}"></div>
-            <div class="modal-body">
-                <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
-                <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
-                <p class="modal-publish-date">${element.lastElementChild.children[2].textContent}</p>
-                <p class="lead-paragraph">${element.lastElementChild.children[3].textContent}</p>
-                <a href="${element.lastElementChild.lastElementChild.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
-                <div class="modal-control">
-                    <i id="bookmark" class="far fa-bookmark"></i>
-                    <i id="close" class="fas fa-times"></i>
-                </div>  
-            </div
-        </div>
-    </div> 
-    `
+        <div class="modal-container">
+            <div class="modal">
+                <div class="modal-img" style="background-image: ${element.firstElementChild.style.backgroundImage.replaceAll('"', '\'')}"></div>
+                <div class="modal-body">
+                    <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
+                    <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
+                    <p class="modal-publish-date">${element.lastElementChild.children[2].textContent}</p>
+                    <p class="lead-paragraph">${element.lastElementChild.children[3].textContent}</p>
+                    <a href="${element.lastElementChild.lastElementChild.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
+                    <div class="modal-control">
+                        <i id="bookmark" class="far fa-bookmark"></i>
+                        <i id="close" class="fas fa-times"></i>
+                    </div>  
+                </div
+            </div>
+        </div> 
+        `
     articleContainer.insertAdjacentHTML('afterbegin', modal)
     let modalContainer = document.querySelector('.modal-container')
     setTimeout(() => {
         modalContainer.classList.add('active')
     }, 100)
-    
 }
 
 
@@ -173,9 +202,6 @@ function buildUrl(url, searchParam) {
 }
 
 
-
-
-
 function renderError() {
     let error = '<div class="error"></div>'
     articleContainer.insertAdjacentHTML('afterbegin', error)
@@ -197,6 +223,7 @@ function listenForBookmark() {
        saveArticle(article)
    })
 }
+
 // Create object and store aticle data
 function createArticleObject (element) {
     let articleObj = {
@@ -215,10 +242,18 @@ function saveArticle (article) {
     localStorage.setItem(READ_LIST.toString(), JSON.stringify(article))
     READ_LIST++
 }
+
 // Create read list button in nav
+// ✅
 
 // Create function to pull from all articles from local storage
-
+function getSavedArticles () {
+    let savedArticles = []
+    for (let i = 0; i < READ_LIST; i++) {
+        savedArticles.push(JSON.parse(localStorage.getItem(i.toString())))
+    }
+    return savedArticles
+}
 // Parse each object (JSON.parse) and push into readlist array
 
 // Render each article object.
