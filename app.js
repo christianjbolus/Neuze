@@ -62,8 +62,8 @@ async function buildMainComponent() {
                 <div class="card-body">
                     <h3 class="headline">${article.title}</h3>
                     <p class="byline hidden">${article.byline}</p>
-                    <p class="lead-paragraph hidden">${article.abstract}</p>
                     <p class="publish-date">${formatDate(article.published_date)}</p>
+                    <p class="lead-paragraph hidden">${article.abstract}</p>
                     <p class="article-link hidden">${article.url}</p>
                 </div>
             </div>
@@ -85,8 +85,8 @@ async function buildSearchComponent(keyword) {
                 <div class="card-body">
                     <h3 class="headline">${article.headline.main}</h3>
                     <p class="byline hidden">${article.byline.original}</p>
-                    <p class="lead-paragraph hidden">${article.lead_paragraph}</p>
                     <p class="publish-date">${formatDate(article.pub_date)}</p>
+                    <p class="lead-paragraph hidden">${article.lead_paragraph}</p>      
                     <p class="article-link hidden">${article.web_url}</p>
                 </div>
             </div>
@@ -139,8 +139,8 @@ function renderModal(element) {
             <div class="modal-body">
                 <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
                 <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
-                <p class="modal-publish-date">${element.lastElementChild.children[3].textContent}</p>
-                <p class="lead-paragraph">${element.lastElementChild.children[2].textContent}</p>
+                <p class="modal-publish-date">${element.lastElementChild.children[2].textContent}</p>
+                <p class="lead-paragraph">${element.lastElementChild.children[3].textContent}</p>
                 <a href="${element.lastElementChild.lastElementChild.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
                 <div class="modal-control">
                     <i id="bookmark" class="far fa-bookmark"></i>
@@ -194,11 +194,11 @@ function listenForBookmark() {
 // Create object and store aticle data
 function createArticleObject (element) {
     let articleObj = {
-        image: element.firstElementChild.style.backgroundImage,
+        multimedia: [{ url: trimUrl(element.firstElementChild.style.backgroundImage) }],
         title: element.lastElementChild.firstElementChild.textContent,
         byline: element.lastElementChild.children[1].textContent,
-        pubDate: element.lastElementChild.children[2].textContent,
-        firstPara: element.lastElementChild.children[3].textContent,
+        published_date: element.lastElementChild.children[2].textContent,
+        abstract: element.lastElementChild.children[3].textContent,
         url: element.lastElementChild.children[4].href
     }
     return (articleObj)
@@ -234,3 +234,7 @@ function saveArticle (article) {
 // let bookmark = document.querySelector('#bookmark')
 
 // let modal = bookmark.closest('.modal')
+
+function trimUrl (url) {
+    return url.slice(5, url.length - 2)
+}
