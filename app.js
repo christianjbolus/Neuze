@@ -5,7 +5,7 @@ const articleContainer = document.querySelector('.article-container');
 const myArticles = document.querySelector('#my-articles');
 
 const API_KEY = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
-let READ_LIST = 0;
+let READ_LIST = localStorage.length;
 
 const URLS = {
     base: 'https://api.nytimes.com/svc/topstories/v2/home.json',
@@ -28,6 +28,7 @@ searchForm.addEventListener('submit', e => {
 
 myArticles.addEventListener('click', () => {
     let savedArticles = getSavedArticles();
+    console.log(savedArticles)
     clearArticles(articleContainer);
     renderSavedArticles(savedArticles);
 });
@@ -214,6 +215,7 @@ function listenForBookmark() {
             saveArticle(article);
         } else {
             localStorage.removeItem(modal.id)
+            READ_LIST--
         }
     });
 }
@@ -245,8 +247,9 @@ function saveArticle(article) {
 // Create function to pull from all articles from local storage
 function getSavedArticles() {
     let savedArticles = [];
-    for (let i = 0; i < READ_LIST; i++) {
-        savedArticles.push(JSON.parse(localStorage.getItem(i.toString())));
+    let keys = Object.keys(localStorage)
+    for (let i = 0; i < keys.length; i++) {
+        savedArticles.push(JSON.parse(localStorage.getItem(keys[i])));
     }
     return savedArticles;
 }
@@ -257,9 +260,7 @@ function getSavedArticles() {
 // ✅
 
 // Create function to remove article from local storage
-function removeSavedArticle(id) {
-    
-}
+
 // Create function to clear local storage
 
 //=========================================================================
