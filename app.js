@@ -5,7 +5,8 @@ const articleContainer = document.querySelector('.article-container');
 const myArticles = document.querySelector('#my-articles');
 
 const API_KEY = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
-let READ_LIST = localStorage.length;
+// Save state of article ids.
+let READ_LIST = localStorage.length === 0 ? 0 : Math.max(...Object.keys(localStorage)) + 1
 
 const URLS = {
     base: 'https://api.nytimes.com/svc/topstories/v2/home.json',
@@ -28,7 +29,6 @@ searchForm.addEventListener('submit', e => {
 
 myArticles.addEventListener('click', () => {
     let savedArticles = getSavedArticles();
-    console.log(savedArticles)
     clearArticles(articleContainer);
     renderSavedArticles(savedArticles);
 });
@@ -174,7 +174,6 @@ function renderModal(element) {
     }, 100);
 }
 
-// 
 
 function clearArticles(element) {
     while (element.lastChild) {
@@ -199,6 +198,20 @@ function renderError() {
     articleContainer.insertAdjacentHTML('afterbegin', error);
 }
 
+function trimUrl(url) {
+    return url.slice(5, url.length - 2);
+}
+
+function toggleClass(element, class1, class2) {
+    if (element.classList.contains(class1)) {
+        element.classList.remove(class1);
+        element.classList.add(class2);
+    } else {
+        element.classList.remove(class2);
+        element.classList.add(class1);
+    }
+}
+
 // renderMainComponent()
 
 //========================================================================
@@ -215,7 +228,7 @@ function listenForBookmark() {
             saveArticle(article);
         } else {
             localStorage.removeItem(modal.id)
-            READ_LIST--
+            // READ_LIST--
         }
     });
 }
@@ -260,35 +273,8 @@ function getSavedArticles() {
 // ✅
 
 // Create function to remove article from local storage
+// ✅
 
 // Create function to clear local storage
 
 //=========================================================================
-//* LOCAL STORAGE PRACTICE
-// let article = {
-//         Title: "Elon Musk and Bitcoin",
-//         byline: "By Christian Bolus",
-//         pubDate: "May 19 2021",
-//         firstPara: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores voluptate consectetur doloremque, atque dignissimos in architecto corrupti aspernatur repellat officiis reprehenderit dolor non et inventore ipsum explicabo dolorum voluptates a. Consequuntur, eum itaque sapiente iure maxime placeat nam corporis quas odio. Hic fugiat quo sunt quod, consequatur dignissimos nihil. Ipsam."
-//     }
-
-// localStorage.setItem('0', JSON.stringify(article))
-// console.log(JSON.parse(localStorage.getItem('0')))
-
-// let bookmark = document.querySelector('#bookmark')
-
-// let modal = bookmark.closest('.modal')
-
-function trimUrl(url) {
-    return url.slice(5, url.length - 2);
-}
-
-function toggleClass(element, class1, class2) {
-    if (element.classList.contains(class1)) {
-        element.classList.remove(class1);
-        element.classList.add(class2);
-    } else {
-        element.classList.remove(class2);
-        element.classList.add(class1);
-    }
-}
