@@ -245,13 +245,13 @@ body {
     cursor: pointer;
 }
 
-#read-list {
+#bookmark {
     font-size: 1.2rem;
     color:#9e9e9e;
     transition: 200ms;
 }
 
-#read-list:hover {
+#bookmark:hover {
     color: #000
 }
 
