@@ -221,6 +221,13 @@ body {
     margin-bottom: 15px;
 }
 
+.modal-control {
+    display: inline;
+    position: absolute;
+    right: 15px;
+    bottom: 37px
+}
+
 #modal-btn {
     width: 150px;
     min-height: 31px;
@@ -228,16 +235,24 @@ body {
 
 #close {
     font-size: 1.3rem;
-    float: right;
-    margin-top: 7px;
-    margin-right: 5px;
+    margin-left: 10px;
     color:#9e9e9e;
-    transition: 200ms
+    transition: 200ms;
 }
 
 #close:hover {
     color: #000;
     cursor: pointer;
+}
+
+#read-list {
+    font-size: 1.2rem;
+    color:#9e9e9e;
+    transition: 200ms;
+}
+
+#read-list:hover {
+    color: #000
 }
 
 .hidden {

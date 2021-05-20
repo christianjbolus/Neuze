@@ -140,7 +140,10 @@ function renderModal(element) {
                 <p class="modal-publish-date">${element.lastElementChild.children[3].textContent}</p>
                 <p class="lead-paragraph">${element.lastElementChild.children[2].textContent}</p>
                 <a href="${element.lastElementChild.lastElementChild.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
-                <i id="close" class="fas fa-times"></i>    
+                <div class="modal-control">
+                    <i id="read-list" class="far fa-bookmark"></i>
+                    <i id="close" class="fas fa-times"></i>
+                </div>  
             </div
         </div>
     </div> 
