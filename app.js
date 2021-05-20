@@ -22,10 +22,36 @@ searchForm.addEventListener('submit', e => {
         validation.style.display = 'none'
         let keyword = input.value.trim();
         clearArticles(articleContainer);
-        buildSearchComponent(keyword);
+        renderSearchComponent(keyword);
         input.value = ''
     }
 });
+
+
+function listenForRenderModal() {
+    const cards = document.querySelectorAll('.card')
+    for (let card of cards) {
+        card.addEventListener('click', function() {
+            renderModal(this)
+            listenForCloseModal()
+            listenForBookmark()
+        })
+    }
+}
+
+
+function listenForCloseModal() {
+    const modal = document.querySelector('.modal-container')
+    const close = document.querySelector('#close')
+    window.addEventListener('click', (e) => {
+        if (e.target == modal || e.target == close) {
+            modal.classList.remove('active')
+            setTimeout(() => {
+                articleContainer.firstElementChild.remove()
+            }, 300)
+        }
+    })
+}
 
 
 async function getTopStories() {
@@ -52,7 +78,7 @@ async function getSearchResults(keyword) {
     }
 }
 
-async function buildMainComponent() {
+async function renderMainComponent() {
     let response = await getTopStories();
     for (let article of response) {
         if (article.multimedia[0]) {
@@ -75,7 +101,7 @@ async function buildMainComponent() {
 }
 
 
-async function buildSearchComponent(keyword) {
+async function renderSearchComponent(keyword) {
     let response = await getSearchResults(keyword);
     for (let article of response) {
         if (article.multimedia[0]) {    //! WORK ON THIS CONDITIONAL
@@ -95,39 +121,6 @@ async function buildSearchComponent(keyword) {
         }
     }
     listenForRenderModal()
-}
-
-
-function listenForRenderModal() {
-    const cards = document.querySelectorAll('.card')
-    for (let card of cards) {
-        card.addEventListener('click', function() {
-            renderModal(this)
-            listenForCloseModal()
-            listenForBookmark()
-        })
-    }
-}
-
-
-function clearArticles(element) {
-    while (element.lastChild) {
-        element.removeChild(element.lastChild);
-    }
-}
-
-
-function formatDate(date) {
-    let formattedDate = new Date(date).toDateString().slice(4);
-    return formattedDate;
-}
-
-
-function buildUrl(url, searchParam) {
-    const newUrl = new URL(url);
-    newUrl.searchParams.append('api-key', API_KEY);
-    if (searchParam) newUrl.searchParams.append('q', searchParam);
-    return newUrl;
 }
 
 
@@ -159,24 +152,37 @@ function renderModal(element) {
 }
 
 
+function clearArticles(element) {
+    while (element.lastChild) {
+        element.removeChild(element.lastChild);
+    }
+}
+
+
+function formatDate(date) {
+    let formattedDate = new Date(date).toDateString().slice(4);
+    return formattedDate;
+}
+
+
+function buildUrl(url, searchParam) {
+    const newUrl = new URL(url);
+    newUrl.searchParams.append('api-key', API_KEY);
+    if (searchParam) newUrl.searchParams.append('q', searchParam);
+    return newUrl;
+}
+
+
+
+
+
 function renderError() {
     let error = '<div class="error"></div>'
     articleContainer.insertAdjacentHTML('afterbegin', error)
 }
 
-function listenForCloseModal() {
-    const modal = document.querySelector('.modal-container')
-    const close = document.querySelector('#close')
-    window.addEventListener('click', (e) => {
-        if (e.target == modal || e.target == close) {
-            modal.classList.remove('active')
-            setTimeout(() => {
-                articleContainer.firstElementChild.remove()
-            }, 300)
-        }
-    })
-}
-buildMainComponent()
+
+renderMainComponent()
 
 
 //========================================================================
