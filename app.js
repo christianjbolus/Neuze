@@ -103,6 +103,7 @@ function listenForRenderModal() {
         card.addEventListener('click', function() {
             renderModal(this)
             listenForCloseModal()
+            listenForBookmark()
         })
     }
 }
@@ -141,7 +142,7 @@ function renderModal(element) {
                 <p class="lead-paragraph">${element.lastElementChild.children[2].textContent}</p>
                 <a href="${element.lastElementChild.lastElementChild.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
                 <div class="modal-control">
-                    <i id="read-list" class="far fa-bookmark"></i>
+                    <i id="bookmark" class="far fa-bookmark"></i>
                     <i id="close" class="fas fa-times"></i>
                 </div>  
             </div
@@ -174,20 +175,38 @@ function listenForCloseModal() {
         }
     })
 }
-buildMainComponent()
+// buildMainComponent()
 
 
-// ========================================================================
+//========================================================================
 //* PSEUDOCODE FOR READLIST
 
 // Create event listener on modal bookmark icon
-
-// Create object to store aticle data
-
-// Store article data in object
+function listenForBookmark() {
+   let bookmark = document.querySelector('#bookmark')
+   bookmark.addEventListener('click', function () {
+       let modal = this.closest('.modal')
+       let article = createArticleObject(modal)
+       saveArticle(article)
+   })
+}
+// Create object and store aticle data
+function createArticleObject (element) {
+    let articleObj = {
+        image: element.firstElementChild.style.backgroundImage,
+        title: element.lastElementChild.firstElementChild.textContent,
+        byline: element.lastElementChild.children[1].textContent,
+        pubDate: element.lastElementChild.children[2].textContent,
+        firstPara: element.lastElementChild.children[3].textContent,
+        url: element.lastElementChild.children[4].href
+    }
+    return (articleObj)
+}
 
 // Covert object to JSON string and save in local storage
-
+function saveArticle (article) {
+    localStorage.setItem('0', JSON.stringify(article))
+}
 // Create read list button in nav
 
 // Create function to pull from all articles from local storage
@@ -195,3 +214,21 @@ buildMainComponent()
 // Parse each object (JSON.parse) and push into readlist array
 
 // Render each article object.
+
+//=========================================================================
+//* LOCAL STORAGE PRACTICE
+// let article = {
+//         Title: "Elon Musk and Bitcoin",
+//         byline: "By Christian Bolus",
+//         pubDate: "May 19 2021",
+//         firstPara: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores voluptate consectetur doloremque, atque dignissimos in architecto corrupti aspernatur repellat officiis reprehenderit dolor non et inventore ipsum explicabo dolorum voluptates a. Consequuntur, eum itaque sapiente iure maxime placeat nam corporis quas odio. Hic fugiat quo sunt quod, consequatur dignissimos nihil. Ipsam."
+//     }
+
+
+// localStorage.setItem('0', JSON.stringify(article))
+// console.log(JSON.parse(localStorage.getItem('0')))
+
+
+// let bookmark = document.querySelector('#bookmark')
+
+// let modal = bookmark.closest('.modal')
