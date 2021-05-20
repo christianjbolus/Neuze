@@ -5,6 +5,7 @@ const articleContainer = document.querySelector('.article-container');
 
 
 const API_KEY = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
+let READ_LIST = 0
 
 const url = {
     base: 'https://api.nytimes.com/svc/topstories/v2/home.json',
@@ -175,7 +176,7 @@ function listenForCloseModal() {
         }
     })
 }
-// buildMainComponent()
+buildMainComponent()
 
 
 //========================================================================
@@ -205,7 +206,8 @@ function createArticleObject (element) {
 
 // Covert object to JSON string and save in local storage
 function saveArticle (article) {
-    localStorage.setItem('0', JSON.stringify(article))
+    localStorage.setItem(READ_LIST.toString(), JSON.stringify(article))
+    READ_LIST++
 }
 // Create read list button in nav
 
