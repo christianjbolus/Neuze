@@ -5,7 +5,6 @@ html {
 body {
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    /* position: absolute; */
     height: 100%;
     background-color:#f6f7f8
 }
@@ -27,6 +26,10 @@ body {
     font-size: 2.5rem;
     font-weight: 700;
     text-transform: uppercase;
+}
+
+#title:hover {
+    cursor: pointer;
 }
 
 #my-articles { 
@@ -77,6 +80,12 @@ body {
     box-shadow: 0px 0px 5px  #01A1C7;
 }
 
+#search-input.validate {
+    outline: none; 
+    border: 1px solid #ff0000;
+    box-shadow: 0px 0px 5px  #ff0000;
+}
+
 .btn {
     background-color: #01A1C7;
     color: white;
@@ -93,12 +102,16 @@ body {
 }
 
 .validation {
-    color: red;
-    font-size: 0.8rem;
+    color: #ff0000;
+    font-size: 0.9rem;
     text-align: left;
     margin-top: 5px;
-    display: none;
-    transition: 500ms;
+    transform: scale(0);
+    transition: 100ms;
+}
+
+.validation.active {
+    transform: scale(1)
 }
 
 .article-container {
@@ -167,16 +180,6 @@ body {
     line-height: 20px;
     text-align: left;
     margin-bottom: 20px;
-}
-
-.error {
-    width: 75%;
-    height: 40vh;
-    background-image: url('assets/404.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: 60px auto;
 }
 
 .modal-container {
@@ -266,11 +269,22 @@ body {
 }
 
 #bookmark:hover {
-    color: #000
+    color: #000;
+    cursor: pointer;
 }
 
 .hidden {
     display: none;
+}
+
+.error {
+    width: 75%;
+    height: 40vh;
+    background-image: url('assets/404.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 60px auto;
 }
 
 @media only screen and (min-width: 575px) {
@@ -298,7 +312,7 @@ body {
     .nav {
         padding: 20px 40px
     }
-    
+
     #title {
         font-size: 3.5rem;
     }
@@ -350,7 +364,7 @@ body {
 
     .headline {
         font-size: 1.5rem;
-        line-height: 25px;
+        line-height: 30px;
         margin-bottom: 40px
     }
 

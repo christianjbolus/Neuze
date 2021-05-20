@@ -25,14 +25,20 @@ searchForm.addEventListener('submit', e => {
     e.preventDefault();
     if (input.value === '') {
         validation.classList.add('active');
+        input.classList.add('validate')
     } else {
-        validation.classList.remove('active')
         let keyword = input.value.trim();
         clearArticles(articleContainer);
         renderSearchComponent(keyword);
         input.value = '';
     }
 });
+
+// Remove validation upon text entry
+input.addEventListener('input', () => {
+    validation.classList.remove('active')
+    input.classList.remove('validate')
+})
 
 myArticles.addEventListener('click', () => {
     let savedArticles = getSavedArticles();
@@ -87,51 +93,47 @@ async function getSearchResults(keyword) {
     }
 }
 
+function renderArticleComponents(response) {
+    for (let article of response) {
+        let component = `
+            <div class="card">
+                <div class="card-img" style="background-image: url('${article.multimedia[0] ? article.multimedia[0].url : '/assets/NYT_logo.png'}')"></div>
+                <div class="card-body">
+                    <h3 class="headline">${article.title}</h3>
+                    <p class="byline hidden">${article.byline}</p>
+                    <p class="publish-date">${formatDate(article.published_date)}</p>
+                    <p class="lead-paragraph hidden">${article.abstract}</p>
+                    <p class="article-link hidden">${article.url}</p>
+                    <p class="hidden">${article?.id}</p>
+                    <p class="hidden">${article?.saved}</p>
+                </div>
+            </div>
+            `;
+        articleContainer.insertAdjacentHTML('beforeend', component);
+    }
+    listenForRenderModal();
+}
 
 async function renderSearchComponent(keyword) {
     let response = await getSearchResults(keyword);
     for (let article of response) {
-        if (article.multimedia[0]) {      //! WORK ON THIS CONDITIONAL
-            let component = `
-                <div class="card">
-                    <div class="card-img" style="background-image: url('${URLS.img}/${article.multimedia[0].url}')"></div>
-                    <div class="card-body">
-                        <h3 class="headline">${article.headline.main}</h3>
-                        <p class="byline hidden">${article.byline.original}</p>
-                        <p class="publish-date">${formatDate(article.pub_date)}</p>
-                        <p class="lead-paragraph hidden">${article.lead_paragraph}</p>      
-                        <p class="article-link hidden">${article.web_url}</p>
-                    </div>
+        let component = `
+            <div class="card">
+                <div class="card-img" style="background-image: url('${article.multimedia[0] ? prependUrl(article.multimedia[0].url) : '/assets/NYT_logo.png'}')"></div>
+                <div class="card-body">
+                    <h3 class="headline">${article.headline.main}</h3>
+                    <p class="byline hidden">${article.byline.original}</p>
+                    <p class="publish-date">${formatDate(article.pub_date)}</p>
+                    <p class="lead-paragraph hidden">${article.lead_paragraph}</p>      
+                    <p class="article-link hidden">${article.web_url}</p>
                 </div>
-                `;
-            articleContainer.insertAdjacentHTML('beforeend', component);
-        }
+            </div>
+            `;
+        articleContainer.insertAdjacentHTML('beforeend', component);
     }
     listenForRenderModal();
 }
 
-function renderArticleComponents(response) {
-    for (let article of response) {
-        if (article.multimedia[0]) {
-            let component = `
-                <div class="card">
-                    <div class="card-img" style="background-image: url('${article.multimedia[0].url}')"></div>
-                    <div class="card-body">
-                        <h3 class="headline">${article.title}</h3>
-                        <p class="byline hidden">${article.byline}</p>
-                        <p class="publish-date">${formatDate(article.published_date)}</p>
-                        <p class="lead-paragraph hidden">${article.abstract}</p>
-                        <p class="article-link hidden">${article.url}</p>
-                        <p class="hidden">${article?.id}</p>
-                        <p class="hidden">${article?.saved}</p>
-                    </div>
-                </div>
-                `;
-            articleContainer.insertAdjacentHTML('beforeend', component);
-        }
-    }
-    listenForRenderModal();
-}
 
 function renderModal(element) {
     let modal = `
@@ -183,6 +185,10 @@ function renderError() {
     articleContainer.insertAdjacentHTML('afterbegin', error);
 }
 
+function prependUrl (url) {
+    return `${URLS.img}/${url}`
+}
+
 function trimUrl(url) {
     return url.slice(5, url.length - 2);
 }
@@ -197,15 +203,14 @@ function toggleClass(element, class1, class2) {
     }
 }
 
-(async () => {
-    let topStories = await getTopStories()
-    renderArticleComponents(topStories)
-})()
+// (async () => {
+//     let topStories = await getTopStories()
+//     renderArticleComponents(topStories)
+// })()
 
 //========================================================================
-//* PSEUDOCODE FOR READLIST
 
-// Create event listener on modal bookmark icon
+// Listen for bookmark and either save article to or delete article from localStorage
 function listenForBookmark() {
     let bookmark = document.querySelector('#bookmark');
     bookmark.addEventListener('click', function () {
@@ -216,12 +221,11 @@ function listenForBookmark() {
             saveArticle(article);
         } else {
             localStorage.removeItem(modal.id)
-            // READ_LIST--
         }
     });
 }
 
-// Create object and store aticle data
+// Create object and store article data
 function createArticleObject(element) {
     let articleObj = {
         id: READ_LIST,
@@ -236,16 +240,13 @@ function createArticleObject(element) {
     return articleObj;
 }
 
-// Covert object to JSON string and save in local storage
+// Covert object to JSON string and save in localStorage
 function saveArticle(article) {
     localStorage.setItem(READ_LIST.toString(), JSON.stringify(article));
     READ_LIST++;
 }
 
-// Create read list button in nav
-// ✅
-
-// Create function to pull from all articles from local storage
+// Pull all articles from local storage and parse into objects
 function getSavedArticles() {
     let savedArticles = [];
     let keys = Object.keys(localStorage)
@@ -254,14 +255,6 @@ function getSavedArticles() {
     }
     return savedArticles;
 }
-// Parse each object (JSON.parse) and push into readlist array
-// ✅
-
-// Render each article object.
-// ✅
-
-// Create function to remove article from local storage
-// ✅
 
 // Create function to clear local storage
 
