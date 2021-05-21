@@ -283,7 +283,7 @@ function toggleClass(element, class1, class2) {
             article.abstract,
             article.url 
         ]
-        renderArticleComponents(...args)
+        renderArticleComponent(...args)
     }
 })()
 
