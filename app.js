@@ -187,7 +187,7 @@ function getSavedArticles() {
 function renderArticleComponent(image, title, byline, pubDate, abstract, url, id = null, saved = null) {
     let component = `
         <div class="card">
-            <div class="card-img" style="background-image: url('${image ? prependDomain(image): '/assets/NYT_logo.png'}')"></div>
+            <div class="card-img" style="background-image: url('${image ? prependDomain(image): './assets/NYT_logo.png'}')"></div>
             <div class="card-body">
                 <h3 class="headline">${title}</h3>
                 <p class="hidden">${byline}</p>
