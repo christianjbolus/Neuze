@@ -272,22 +272,20 @@ function toggleClass(element, class1, class2) {
     }
 }
 
-// (async () => {
-//     let topStories = await getTopStories()
-//     for (article of topStories) {
-//         let args = [
-//             article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
-//             article.title,
-//             article.byline,
-//             article.pubDate,
-//             article.abstract,
-//             article.url 
-//         ]
-//         renderArticleComponents(...args)
-//     }
-// })()
+(async () => {
+    let topStories = await getTopStories()
+    for (article of topStories) {
+        let args = [
+            article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            article.title,
+            article.byline,
+            article.pubDate,
+            article.abstract,
+            article.url 
+        ]
+        renderArticleComponents(...args)
+    }
+})()
 
-
-//? CREATE MAKEARGS FUNCTION
 
 
