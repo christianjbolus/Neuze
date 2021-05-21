@@ -2,7 +2,8 @@
 
 ## Project Description
 
-Neuze is a news app that allows users to search for New York Times articles by keyword. 
+Neuze is a news app that allows users to search for New York Times articles by keyword.
+[Neuze](https://christianjbolus.github.io/Neuze/) 
 
 ## API and Data Sample
 
@@ -115,18 +116,18 @@ Neuze is a news app that allows users to search for New York Times articles by k
 - Add modal window to display article abstract, byline and link to full article in addition to title, image and publish date
 - Add basic form validation
 - Add basic error handling
-- Allow users to search book/movie reviews
+- Allow users to save articles in local storage
 
 ## Project Schedule
 
 |  Day | Deliverable | Status
 |---|---| ---|
 |May 14-16| Prompt / Wireframes / Priority Matrix / Timeframes | Complete
-|May 17| Project Approval / Core Application Structure (HTML, CSS, etc.) | Incomplete
-|May 18| Pseudocode / actual code | Incomplete
-|May 19| Initial Clickable Model / MVP  | Incomplete
-|May 20| Advanced CSS / Deployment | Incomplete
-|May 21| Presentations | Incomplete
+|May 17| Project Approval / Core Application Structure (HTML, CSS, etc.) | Complete
+|May 18| Pseudocode / actual code | Complete
+|May 19| Initial Clickable Model / MVP  | Complete
+|May 20| Advanced CSS / Post MVP | Complete
+|May 21| Presentations | Complete
 
 ## Priority Matrix
 
@@ -137,21 +138,21 @@ Neuze is a news app that allows users to search for New York Times articles by k
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
 | Basic HTML structure | H | 2 hrs | 2 hrs | 1 hr |
-| Establish CSS classes & ids | H | 1.5 hrs | 2 hrs | 2 hrs |
-| Test API endpoints | H | 2 hrs |  |  |
-| App logic for bulding urls | H | 2 hr | 2 hr | 1 hr |
-| App logic for API request | H | 2 hrs | 5 hr | 1 hr |
-| App logic for parsing data | H | 1 hr |  | 1 hr |
+| Establish CSS classes & ids | H | 1.5 hrs | 2 hrs | 1 hrs |
+| Test API endpoints | H | 2 hrs | 2 hrs | 1 hr |
+| App logic for bulding urls | H | 2 hrs | 2 hrs | 1 hr |
+| App logic for API request | H | 2 hrs | 5 hrs | 1 hr |
+| App logic for parsing data | H | 1 hr | 6 hrs | 1 hr |
 | App logic for building HTML components | H | 3 hrs | 5 hr | 1 hr |
 | App logic for appending components | H | 1 hr | 5 hr | 1 hr |
 | App logic for modal | M | 3 hrs | 12 hrs | 4 hrs |
+| App logic for saving articles to local storage | M | 6 hrs | 25 hrs | 5 hrs|
 | Style body app body | H | 3 hrs | 9 hrs | 2 hrs |
 | Style article cards | H | 3 hrs | 8 hrs | 1 hr |
 | Style modal | M | 3 hrs | 15 hrs | 4 hrs |
-| Media query app body | H | 3 hrs |  |  |
-| Media query article cards | H | 3 hrs |  |  |
-| Media query modal | M | 3 hrs |  |  |
-| Total | H | 35.5 hrs|  |  |
+| Media query app body | H | 3 hrs | 16 hrs | 1 hr |
+| Media query article cards | H | 3 hrs | 20 hrs | 4 hrs |
+| Total | H | 38.5 hrs|  |  |
 
 ## Code Snippet
 
@@ -164,7 +165,7 @@ function reverse(string) {
 ```
 
 ## Change Log
- Use this section to document what changes were made and the reasoning behind those changes.  
+I decided not to implement a media query for the modal as I thought it looked good at multiple screen sizes.
 
 
 
