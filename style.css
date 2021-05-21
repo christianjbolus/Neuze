@@ -20,7 +20,7 @@ body {
     right: 0;
 }
 
-#title {
+#home {
     box-sizing: border-box;
     text-align: left;
     font-size: 2.5rem;
@@ -28,7 +28,7 @@ body {
     text-transform: uppercase;
 }
 
-#title:hover {
+#home:hover {
     cursor: pointer;
 }
 
@@ -233,7 +233,7 @@ body {
 }
 
 .modal-publish-date {
-    color: #727272;
+    color: #9e9e9e;
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -259,10 +259,14 @@ body {
     transition: 200ms;
 }
 
-#bookmark {
+.fa-bookmark {
     font-size: 1.2rem;
     color:#9e9e9e;
     transition: 200ms;
+}
+
+.fa-bookmark.fas {
+    color: #000
 }
 
 .hidden {
@@ -305,8 +309,13 @@ body {
         padding: 20px 40px
     }
 
-    #title {
+    #home {
         font-size: 3.5rem;
+        transition: 200ms
+    }
+
+    #home:hover {
+        color: #9e9e9e
     }
 
     #my-articles {
@@ -332,7 +341,7 @@ body {
     }
 
     .btn:hover {
-        background-color: #005469;
+        background-color: #0084a5;
         cursor: pointer
     }
 
