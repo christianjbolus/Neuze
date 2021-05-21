@@ -279,10 +279,12 @@ function toggleClass(element, class1, class2) {
             article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
             article.title,
             article.byline,
-            article.pubDate,
+            article.published_date,
             article.abstract,
-            article.url 
+            article.url,
+            article.uri.replace('nyt://article/', '') 
         ]
+        console.log(article.pubDate)
         renderArticleComponent(...args)
     }
 })()
