@@ -156,7 +156,6 @@ function listenForBookmark() {
 
 // Create object and store article data
 function createArticleObject(element) {
-    console.log(element.id)
     let articleObj = {
         id: element.id,
         multimedia: [{ url: trimUrl(element.firstElementChild.style.backgroundImage) }],
@@ -173,7 +172,6 @@ function createArticleObject(element) {
 // Covert object to JSON string and save in localStorage
 function saveArticle(article) {
     localStorage.setItem(article.id, JSON.stringify(article));
-    ARTICLE_ID++;
 }
 
 // Pull all articles from local storage and parse into objects
@@ -185,7 +183,6 @@ function getSavedArticles() {
     }
     return savedArticles;
 }
-
 
 function renderArticleComponent(image, title, byline, pubDate, abstract, url, id = null, saved = null) {
     let component = `
