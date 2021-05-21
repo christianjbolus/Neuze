@@ -1,4 +1,4 @@
-const home = document.querySelector('#title')
+const home = document.querySelector('#home')
 const myArticles = document.querySelector('#my-articles');
 const searchForm = document.querySelector('#search-form');
 const searchBar = document.querySelector('input');
@@ -6,22 +6,33 @@ const validationMessage = document.querySelector('.validation-msg');
 const articleContainer = document.querySelector('.article-container');
 
 const API_KEY = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
-// Save state of article ids.
-let READ_LIST = localStorage.length === 0 ? 0 : Math.max(...Object.keys(localStorage)) + 1
 
 const URLS = {
     base: 'https://api.nytimes.com/svc/topstories/v2/home.json',
     search: `https://api.nytimes.com/svc/search/v2/articlesearch.json`,
-    img: 'http://static01.nyt.com',
+    img: 'https://static01.nyt.com/',
 };
 
 // Render top stories when app name clicked
 home.addEventListener('click', async () => {
     clearArticles(articleContainer);
     let topStories = await getTopStories()
-    renderArticleComponents(topStories);
+    for (article of topStories) {
+        let args = [
+            article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            article.title,
+            article.byline,
+            article.published_date,
+            article.abstract,
+            article.url,
+            article.uri.replace('nyt://article/', '') 
+        ]
+        renderArticleComponent(...args)
+    }
+    listenForRenderModal();
 })
 
+// Render search results or validation message
 searchForm.addEventListener('submit', async e => {
     e.preventDefault();
     if (searchBar.value === '') {
@@ -31,8 +42,20 @@ searchForm.addEventListener('submit', async e => {
         let keyword = searchBar.value.trim();
         let searchResults = await getSearchResults(keyword)
         clearArticles(articleContainer);
-        renderSearchComponents(searchResults);
         searchBar.value = '';
+        for (let article of searchResults) {
+            let args = [
+                article.multimedia[0]?.url,
+                article.headline.main,
+                article.byline.original,
+                article.pub_date,
+                article.lead_paragraph, 
+                article.web_url,
+                article.uri.replace('nyt://article/', '')
+            ]
+            renderArticleComponent(...args)
+        }
+        listenForRenderModal();
     }
 });
 
@@ -52,8 +75,45 @@ window.addEventListener('click', () => {
 myArticles.addEventListener('click', () => {
     let savedArticles = getSavedArticles();
     clearArticles(articleContainer);
-    renderArticleComponents(savedArticles);
+    for (article of savedArticles) {
+        let args = [
+            article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            article.title,
+            article.byline,
+            article.published_date,
+            article.abstract,
+            article.url,
+            article.id,
+            article.saved 
+        ]
+        renderArticleComponent(...args)
+    }
+    listenForRenderModal();
 });
+
+async function getTopStories() {
+    try {
+        let reqUrl = buildUrl(URLS.base);
+        const res = await axios.get(reqUrl);
+        let data = res.data.results;
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function getSearchResults(keyword) {
+    try {
+        let reqUrl = buildUrl(URLS.search, keyword);
+        const res = await axios.get(reqUrl);
+        let data = res.data.response.docs;
+        if (!data[0]) renderError();
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 
 function listenForRenderModal() {
     const cards = document.querySelectorAll('.card');
@@ -94,71 +154,55 @@ function listenForBookmark() {
     });
 }
 
+// Create object and store article data
+function createArticleObject(element) {
+    console.log(element.id)
+    let articleObj = {
+        id: element.id,
+        multimedia: [{ url: trimUrl(element.firstElementChild.style.backgroundImage) }],
+        title: element.lastElementChild.firstElementChild.textContent,
+        byline: element.lastElementChild.children[1].textContent,
+        published_date: element.lastElementChild.children[2].textContent,
+        abstract: element.lastElementChild.children[3].textContent,
+        url: element.lastElementChild.children[4].href,
+        saved: true
+    };
+    return articleObj;
+}
 
-async function getTopStories() {
-    try {
-        let reqUrl = buildUrl(URLS.base);
-        const res = await axios.get(reqUrl);
-        let data = res.data.results;
-        return data;
-    } catch (err) {
-        console.log(err);
+// Covert object to JSON string and save in localStorage
+function saveArticle(article) {
+    localStorage.setItem(article.id, JSON.stringify(article));
+    ARTICLE_ID++;
+}
+
+// Pull all articles from local storage and parse into objects
+function getSavedArticles() {
+    let savedArticles = [];
+    let keys = Object.keys(localStorage)
+    for (let i = 0; i < keys.length; i++) {
+        savedArticles.push(JSON.parse(localStorage.getItem(keys[i])));
     }
+    return savedArticles;
 }
 
 
-async function getSearchResults(keyword) {
-    try {
-        let reqUrl = buildUrl(URLS.search, keyword);
-        const res = await axios.get(reqUrl);
-        let data = res.data.response.docs;
-        if (!data[0]) renderError("Couldn't find what you're looking for");
-        return data;
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-
-function renderArticleComponents(response) {
-    for (let article of response) {
-        let component = `
-            <div class="card">
-                <div class="card-img" style="background-image: url('${article.multimedia[0] ? article.multimedia[0].url : '/assets/NYT_logo.png'}')"></div>
-                <div class="card-body">
-                    <h3 class="headline">${article.title}</h3>
-                    <p class="hidden">${article.byline}</p>
-                    <p class="publish-date">${formatDate(article.published_date)}</p>
-                    <p class="hidden">${article.abstract}</p>
-                    <p class="hidden">${article.url}</p>
-                    <p class="hidden">${article?.id}</p>
-                    <p class="hidden">${article?.saved}</p>
-                </div>
+function renderArticleComponent(image, title, byline, pubDate, abstract, url, id = null, saved = null) {
+    let component = `
+        <div class="card">
+            <div class="card-img" style="background-image: url('${image ? prependDomain(image): '/assets/NYT_logo.png'}')"></div>
+            <div class="card-body">
+                <h3 class="headline">${title}</h3>
+                <p class="hidden">${byline}</p>
+                <p class="publish-date">${formatDate(pubDate)}</p>
+                <p class="hidden">${abstract}</p>
+                <p class="hidden">${url}</p>
+                <p class="hidden">${id}</p>
+                <p class="hidden">${saved}</p>
             </div>
-            `;
-        articleContainer.insertAdjacentHTML('beforeend', component);
-    }
-    listenForRenderModal();
-}
-
-
-async function renderSearchComponents(response) {
-    for (let article of response) {
-        let component = `
-            <div class="card">
-                <div class="card-img" style="background-image: url('${article.multimedia[0] ? prependDomain(article.multimedia[0].url) : '/assets/NYT_logo.png'}')"></div>
-                <div class="card-body">
-                    <h3 class="headline">${article.headline.main}</h3>
-                    <p class="byline hidden">${article.byline.original}</p>
-                    <p class="publish-date">${formatDate(article.pub_date)}</p>
-                    <p class="lead-paragraph hidden">${article.lead_paragraph}</p>      
-                    <p class="article-link hidden">${article.web_url}</p>
-                </div>
-            </div>
-            `;
-        articleContainer.insertAdjacentHTML('beforeend', component);
-    }
-    listenForRenderModal();
+        </div>
+        `;
+    articleContainer.insertAdjacentHTML('beforeend', component);
 }
 
 
@@ -182,6 +226,7 @@ function renderModal(element) {
         </div> 
         `;
     articleContainer.insertAdjacentHTML('afterbegin', modal);
+    // Set class of active after 100ms triggers animation
     let modalContainer = document.querySelector('.modal-container');
     setTimeout(() => {
         modalContainer.classList.add('active');
@@ -213,7 +258,7 @@ function renderError() {
 }
 
 function prependDomain(url) {
-    return `${URLS.img}/${url}`
+    return `${URLS.img}${url}`
 }
 
 function trimUrl(url) {
@@ -232,44 +277,20 @@ function toggleClass(element, class1, class2) {
 
 // (async () => {
 //     let topStories = await getTopStories()
-//     renderArticleComponents(topStories)
+//     for (article of topStories) {
+//         let args = [
+//             article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+//             article.title,
+//             article.byline,
+//             article.pubDate,
+//             article.abstract,
+//             article.url 
+//         ]
+//         renderArticleComponents(...args)
+//     }
 // })()
 
-//========================================================================
+
+//? CREATE MAKEARGS FUNCTION
 
 
-
-// Create object and store article data
-function createArticleObject(element) {
-    let articleObj = {
-        id: READ_LIST,
-        multimedia: [{ url: trimUrl(element.firstElementChild.style.backgroundImage) }],
-        title: element.lastElementChild.firstElementChild.textContent,
-        byline: element.lastElementChild.children[1].textContent,
-        published_date: element.lastElementChild.children[2].textContent,
-        abstract: element.lastElementChild.children[3].textContent,
-        url: element.lastElementChild.children[4].href,
-        saved: true
-    };
-    return articleObj;
-}
-
-// Covert object to JSON string and save in localStorage
-function saveArticle(article) {
-    localStorage.setItem(READ_LIST.toString(), JSON.stringify(article));
-    READ_LIST++;
-}
-
-// Pull all articles from local storage and parse into objects
-function getSavedArticles() {
-    let savedArticles = [];
-    let keys = Object.keys(localStorage)
-    for (let i = 0; i < keys.length; i++) {
-        savedArticles.push(JSON.parse(localStorage.getItem(keys[i])));
-    }
-    return savedArticles;
-}
-
-// Create function to clear local storage
-
-//=========================================================================
