@@ -1,8 +1,8 @@
 const home = document.querySelector('#title')
 const myArticles = document.querySelector('#my-articles');
 const searchForm = document.querySelector('#search-form');
-const input = document.querySelector('input');
-const validation = document.querySelector('.validation');
+const searchBar = document.querySelector('input');
+const validationMessage = document.querySelector('.validation-msg');
 const articleContainer = document.querySelector('.article-container');
 
 const API_KEY = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
@@ -15,31 +15,40 @@ const URLS = {
     img: 'http://static01.nyt.com',
 };
 
+// Render top stories when app name clicked
 home.addEventListener('click', async () => {
     clearArticles(articleContainer);
     let topStories = await getTopStories()
     renderArticleComponents(topStories);
 })
 
-searchForm.addEventListener('submit', e => {
+searchForm.addEventListener('submit', async e => {
     e.preventDefault();
-    if (input.value === '') {
-        validation.classList.add('active');
-        input.classList.add('validate')
+    if (searchBar.value === '') {
+        validationMessage.classList.add('active');
+        searchBar.classList.add('validate')
     } else {
-        let keyword = input.value.trim();
+        let keyword = searchBar.value.trim();
+        let searchResults = await getSearchResults(keyword)
         clearArticles(articleContainer);
-        renderSearchComponent(keyword);
-        input.value = '';
+        renderSearchComponents(searchResults);
+        searchBar.value = '';
     }
 });
 
 // Remove validation upon text entry
-input.addEventListener('input', () => {
-    validation.classList.remove('active')
-    input.classList.remove('validate')
-})
+searchBar.addEventListener('input', () => {
+    validationMessage.classList.remove('active')
+    searchBar.classList.remove('validate')
+});
 
+// Remove validation when click away
+window.addEventListener('click', () => {
+    validationMessage.classList.remove('active')
+    searchBar.classList.remove('validate')
+});
+
+// Render saved articles
 myArticles.addEventListener('click', () => {
     let savedArticles = getSavedArticles();
     clearArticles(articleContainer);
@@ -58,17 +67,33 @@ function listenForRenderModal() {
 }
 
 function listenForCloseModal() {
-    const modal = document.querySelector('.modal-container');
+    const modalContainer = document.querySelector('.modal-container');
     const close = document.querySelector('#close');
     window.addEventListener('click', e => {
-        if (e.target == modal || e.target == close) {
-            modal.classList.remove('active');
+        if (e.target == modalContainer || e.target == close) {
+            modalContainer.classList.remove('active');
             setTimeout(() => {
                 articleContainer.firstElementChild.remove();
             }, 300);
         }
     });
 }
+
+// Either save article to or delete article from localStorage
+function listenForBookmark() {
+    let bookmark = document.querySelector('#bookmark');
+    bookmark.addEventListener('click', function () {
+        toggleClass(this, 'far', 'fas');
+        let modal = this.closest('.modal');
+        if (this.classList.contains('fas')) {
+            let article = createArticleObject(modal);
+            saveArticle(article);
+        } else {
+            localStorage.removeItem(modal.id)
+        }
+    });
+}
+
 
 async function getTopStories() {
     try {
@@ -80,6 +105,7 @@ async function getTopStories() {
         console.log(err);
     }
 }
+
 
 async function getSearchResults(keyword) {
     try {
@@ -93,6 +119,7 @@ async function getSearchResults(keyword) {
     }
 }
 
+
 function renderArticleComponents(response) {
     for (let article of response) {
         let component = `
@@ -100,10 +127,10 @@ function renderArticleComponents(response) {
                 <div class="card-img" style="background-image: url('${article.multimedia[0] ? article.multimedia[0].url : '/assets/NYT_logo.png'}')"></div>
                 <div class="card-body">
                     <h3 class="headline">${article.title}</h3>
-                    <p class="byline hidden">${article.byline}</p>
+                    <p class="hidden">${article.byline}</p>
                     <p class="publish-date">${formatDate(article.published_date)}</p>
-                    <p class="lead-paragraph hidden">${article.abstract}</p>
-                    <p class="article-link hidden">${article.url}</p>
+                    <p class="hidden">${article.abstract}</p>
+                    <p class="hidden">${article.url}</p>
                     <p class="hidden">${article?.id}</p>
                     <p class="hidden">${article?.saved}</p>
                 </div>
@@ -114,12 +141,12 @@ function renderArticleComponents(response) {
     listenForRenderModal();
 }
 
-async function renderSearchComponent(keyword) {
-    let response = await getSearchResults(keyword);
+
+async function renderSearchComponents(response) {
     for (let article of response) {
         let component = `
             <div class="card">
-                <div class="card-img" style="background-image: url('${article.multimedia[0] ? prependUrl(article.multimedia[0].url) : '/assets/NYT_logo.png'}')"></div>
+                <div class="card-img" style="background-image: url('${article.multimedia[0] ? prependDomain(article.multimedia[0].url) : '/assets/NYT_logo.png'}')"></div>
                 <div class="card-body">
                     <h3 class="headline">${article.headline.main}</h3>
                     <p class="byline hidden">${article.byline.original}</p>
@@ -185,7 +212,7 @@ function renderError() {
     articleContainer.insertAdjacentHTML('afterbegin', error);
 }
 
-function prependUrl (url) {
+function prependDomain(url) {
     return `${URLS.img}/${url}`
 }
 
@@ -210,20 +237,7 @@ function toggleClass(element, class1, class2) {
 
 //========================================================================
 
-// Listen for bookmark and either save article to or delete article from localStorage
-function listenForBookmark() {
-    let bookmark = document.querySelector('#bookmark');
-    bookmark.addEventListener('click', function () {
-        toggleClass(this, 'far', 'fas');
-        let modal = this.closest('.modal');
-        if (this.classList.contains('fas')) {
-            let article = createArticleObject(modal);
-            saveArticle(article);
-        } else {
-            localStorage.removeItem(modal.id)
-        }
-    });
-}
+
 
 // Create object and store article data
 function createArticleObject(element) {
