@@ -205,7 +205,7 @@ function renderArticleComponent(image, title, byline, pubDate, abstract, url, id
 
 function renderModal(element) {
     let modal = `
-        <div class="modal-container">
+        <div class="modal-container" onclick="void(0)">
             <div class="modal" id="${element.lastElementChild.children[5]?.textContent}">
                 <div class="modal-img" style="background-image: ${element.firstElementChild.style.backgroundImage.replaceAll('"', "'")}"></div>
                 <div class="modal-body">
@@ -216,7 +216,7 @@ function renderModal(element) {
                     <a href="${element.lastElementChild.children[4].textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
                     <div class="modal-control">
                         <i id="bookmark" class="${element.lastElementChild.children[6]?.textContent === 'true' ? 'fas' : 'far'} fa-bookmark"></i>
-                        <i id="close" class="fas fa-times"></i>
+                        <i id="close" class="fas fa-times" onclick="void(0)"></i>
                     </div>  
                 </div
             </div>
