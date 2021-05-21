@@ -287,6 +287,7 @@ function toggleClass(element, class1, class2) {
         console.log(article.pubDate)
         renderArticleComponent(...args)
     }
+    listenForRenderModal();
 })()
 
 
