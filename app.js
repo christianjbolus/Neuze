@@ -18,16 +18,17 @@ home.addEventListener('click', async () => {
     clearArticles(articleContainer);
     let topStories = await getTopStories()
     for (article of topStories) {
-        let args = [
-            article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
-            article.title,
-            article.byline,
-            article.published_date,
-            article.abstract,
-            article.url,
-            article.uri.replace('nyt://article/', '') 
-        ]
-        renderArticleComponent(...args)
+        let props = {
+            image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            title: article.title,
+            byline: article.byline,
+            pubDate: article.published_date,
+            leadPara: article.abstract,
+            url: article.url,
+            id: article.uri.replace('nyt://article/', ''), 
+            saved: article?.saved
+        }
+        renderArticleComponent(props)
     }
     listenForRenderModal();
 })
@@ -44,16 +45,17 @@ searchForm.addEventListener('submit', async e => {
         clearArticles(articleContainer);
         searchBar.value = '';
         for (let article of searchResults) {
-            let args = [
-                article.multimedia[0]?.url,
-                article.headline.main,
-                article.byline.original,
-                article.pub_date,
-                article.lead_paragraph, 
-                article.web_url,
-                article.uri.replace('nyt://article/', '')
-            ]
-            renderArticleComponent(...args)
+            let props = {
+                image: article.multimedia[0]?.url,
+                title: article.headline.main,
+                byline: article.byline.original,
+                pubDate: article.pub_date,
+                leadPara: article.lead_paragraph, 
+                url: article.web_url,
+                id: article.uri.replace('nyt://article/', ''), 
+                saved: article?.saved
+            }
+            renderArticleComponent(props)
         }
         listenForRenderModal();
     }
@@ -76,17 +78,17 @@ myArticles.addEventListener('click', () => {
     let savedArticles = getSavedArticles();
     clearArticles(articleContainer);
     for (article of savedArticles) {
-        let args = [
-            article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
-            article.title,
-            article.byline,
-            article.published_date,
-            article.abstract,
-            article.url,
-            article.id,
-            article.saved 
-        ]
-        renderArticleComponent(...args)
+        let props = {
+            image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            title: article.title,
+            byline: article.byline,
+            pubDate: article.published_date,
+            leadPara: article.abtract,
+            url: article.url,
+            id: article.id,
+            saved: article?.saved
+        }
+        renderArticleComponent(props)
     }
     listenForRenderModal();
 });
@@ -184,18 +186,18 @@ function getSavedArticles() {
     return savedArticles;
 }
 
-function renderArticleComponent(image, title, byline, pubDate, abstract, url, id = null, saved = null) {
+function renderArticleComponent(props) {
     let component = `
         <div class="card">
-            <div class="card-img" style="background-image: url('${image ? prependDomain(image): './assets/NYT_logo.png'}')"></div>
+            <div class="card-img" style="background-image: url('${props.image ? prependDomain(props.image): './assets/NYT_logo.png'}')"></div>
             <div class="card-body">
-                <h3 class="headline">${title}</h3>
-                <p class="hidden">${byline}</p>
-                <p class="publish-date">${formatDate(pubDate)}</p>
-                <p class="hidden">${abstract}</p>
-                <p class="hidden">${url}</p>
-                <p class="hidden">${id}</p>
-                <p class="hidden">${saved}</p>
+                <h3 class="headline">${props.title}</h3>
+                <p class="hidden">${props.byline}</p>
+                <p class="publish-date">${formatDate(props.pubDate)}</p>
+                <p class="hidden">${props.leadPara}</p>
+                <p class="hidden">${props.url}</p>
+                <p class="hidden">${props.id}</p>
+                <p class="hidden">${props.saved}</p>
             </div>
         </div>
         `;
@@ -206,7 +208,7 @@ function renderArticleComponent(image, title, byline, pubDate, abstract, url, id
 function renderModal(element) {
     let modal = `
         <div class="modal-container" onclick="void(0)">
-            <div class="modal" id="${element.lastElementChild.children[5]?.textContent}">
+            <div class="modal" id="${element.lastElementChild.children[5].textContent}">
                 <div class="modal-img" style="background-image: ${element.firstElementChild.style.backgroundImage.replaceAll('"', "'")}"></div>
                 <div class="modal-body">
                     <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
@@ -215,7 +217,7 @@ function renderModal(element) {
                     <p class="lead-paragraph">${element.lastElementChild.children[3].textContent}</p>
                     <a href="${element.lastElementChild.children[4].textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
                     <div class="modal-control">
-                        <i id="bookmark" class="${element.lastElementChild.children[6]?.textContent === 'true' ? 'fas' : 'far'} fa-bookmark"></i>
+                        <i id="bookmark" class="${element.lastElementChild.children[6].textContent === 'true' ? 'fas' : 'far'} fa-bookmark"></i>
                         <i id="close" class="fas fa-times" onclick="void(0)"></i>
                     </div>  
                 </div
@@ -275,17 +277,17 @@ function toggleClass(element, class1, class2) {
 (async () => {
     let topStories = await getTopStories()
     for (article of topStories) {
-        let args = [
-            article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
-            article.title,
-            article.byline,
-            article.published_date,
-            article.abstract,
-            article.url,
-            article.uri.replace('nyt://article/', '') 
-        ]
-        console.log(article.pubDate)
-        renderArticleComponent(...args)
+        let props = {
+            image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            title: article.title,
+            byline: article.byline,
+            pubDate: article.published_date,
+            leadPara: article.abtract,
+            url: article.url,
+            id: article.uri.replace('nyt://article/', ''), 
+            saved: article?.saved
+        }
+        renderArticleComponent(props)
     }
     listenForRenderModal();
 })()
