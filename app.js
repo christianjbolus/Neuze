@@ -282,7 +282,7 @@ function toggleClass(element, class1, class2) {
             title: article.title,
             byline: article.byline,
             pubDate: article.published_date,
-            leadPara: article.abtract,
+            leadPara: article.abstract,
             url: article.url,
             id: article.uri.replace('nyt://article/', ''), 
             saved: article?.saved
