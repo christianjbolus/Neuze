@@ -4,7 +4,7 @@
 
 Neuze is a news app that allows users to search for New York Times articles by keyword.
 
-[Neuze](https://christianjbolus.github.io/Neuze/) 
+[Neuze](https://christianjbolus.github.io/neuze/) 
 
 ## API and Data Sample
 
