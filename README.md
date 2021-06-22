@@ -3,6 +3,7 @@
 ## Project Description
 
 Neuze is a news app that allows users to search for New York Times articles by keyword.
+
 [Neuze](https://christianjbolus.github.io/Neuze/) 
 
 ## API and Data Sample
@@ -137,22 +138,23 @@ Neuze is a news app that allows users to search for New York Times articles by k
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
-| Basic HTML structure | H | 2 hrs | 2 hrs | 1 hr |
-| Establish CSS classes & ids | H | 1.5 hrs | 2 hrs | 1 hrs |
-| Test API endpoints | H | 2 hrs | 2 hrs | 1 hr |
-| App logic for bulding urls | H | 2 hrs | 2 hrs | 1 hr |
+| Basic HTML structure | H | 2 hrs | 1 hrs | 1 hr |
+| Establish CSS classes & ids | H | 1.5 hrs | 2 hrs | 1 hr |
+| Test API endpoints | H | 2 hrs | 3 hrs | 1 hr |
+| App logic for bulding urls | H | 4 hrs | 2 hrs | 1 hr |
 | App logic for API request | H | 2 hrs | 5 hrs | 1 hr |
 | App logic for parsing data | H | 1 hr | 6 hrs | 1 hr |
-| App logic for building HTML components | H | 3 hrs | 5 hr | 1 hr |
-| App logic for appending components | H | 1 hr | 5 hr | 1 hr |
+| App logic for building HTML components | H | 3 hrs | 7 hrs | 1 hr |
+| App logic for appending components | H | 1 hr | 8 hrs | 1 hr |
 | App logic for modal | M | 3 hrs | 12 hrs | 4 hrs |
-| App logic for saving articles to local storage | M | 6 hrs | 25 hrs | 5 hrs|
-| Style body app body | H | 3 hrs | 9 hrs | 2 hrs |
-| Style article cards | H | 3 hrs | 8 hrs | 1 hr |
-| Style modal | M | 3 hrs | 15 hrs | 4 hrs |
-| Media query app body | H | 3 hrs | 16 hrs | 1 hr |
-| Media query article cards | H | 3 hrs | 20 hrs | 4 hrs |
-| Total | H | 38.5 hrs|  |  |
+| App logic for animating modal | M | 3 hrs | 18 | 6 hrs |
+| App logic for saving articles to local storage | M | 6 hrs | 23 hrs | 5 hrs|
+| Style body app body | H | 3 hrs | 25 hrs | 2 hrs |
+| Style article cards | H | 3 hrs | 26 hrs | 1 hr |
+| Style modal | M | 3 hrs | 28 hrs | 4 hrs |
+| Media query app body | H | 3 hrs | 29 hrs | 1 hr |
+| Media query article cards | H | 3 hrs | 32 hrs | 4 hrs |
+| Total | H | 41.5 hrs| 29 hrs | 32 hrs |
 
 ## Code Snippet
 
