@@ -1,36 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="reset.css" />
-        <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script defer src="app.js"></script>
-        <title>Neuze</title>
-    </head>
-    <body>
-        <header>
-            <nav class="nav">
-                <h1 id="home">Neuze</h1>
-                <p id="my-articles">My Articles</p>
-            </nav>
-            <div class="img-container"></div>
-        </header>
-        <h2 id="top-stories">Top Stories</h2>
-        <form id="search-form" action="#">
-            <fieldset class="form-element">
-                <input id="search-input" type="text" />
-                <p class="validation-msg"><i class="far fa-times-circle"></i>Please enter a search term</p>
-            </fieldset>
-            <button id="search-btn" class="btn">Search</button>
-        </form>
-        <section class="article-container"></section>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/assets/neuze_logo_192.png" />
+    <link rel="apple-touch-icon" href="/assets/neuze_logo_apple_touch.png" />
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+      integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer src="app.js"></script>
+    <title>Neuze</title>
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <h1 id="home">Neuze</h1>
+        <p id="my-articles">My Articles</p>
+      </nav>
+      <div class="img-container"></div>
+    </header>
+    <h2 id="top-stories">Top Stories</h2>
+    <form id="search-form" action="#">
+      <fieldset class="form-element">
+        <input id="search-input" type="text" />
+        <p class="validation-msg">
+          <i class="far fa-times-circle"></i>Please enter a search term
+        </p>
+      </fieldset>
+      <button id="search-btn" class="btn">Search</button>
+    </form>
+    <section class="article-container"></section>
+  </body>
 </html>
-
-
