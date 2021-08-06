@@ -252,8 +252,9 @@ function buildUrl(url, searchParam) {
 }
 
 function renderError() {
-    let error = `<div class="error"></div>`;
+    let error = '<div class="error"></div>';
     articleContainer.insertAdjacentHTML('afterbegin', error);
+    console.log("rendered")
 }
 
 function prependDomain(url) {
