@@ -83,7 +83,7 @@ myArticles.addEventListener('click', () => {
             title: article.title,
             byline: article.byline,
             pubDate: article.published_date,
-            leadPara: article.abtract,
+            leadPara: article.abstract,
             url: article.url,
             id: article.id,
             saved: article?.saved
