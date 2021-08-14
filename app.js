@@ -240,9 +240,11 @@ function clearArticles(element) {
 }
 
 function formatDate(date) {
+    // Remove day name from beginning of date string
     let newDate = new Date(date).toDateString().slice(4);
     let month = newDate.match(/\w{3}/)
     let day = newDate.match(/\d{2}/)
+    // Add period and comma to date string
     let formattedDate = newDate.replace(`${month} ${day}`, `${month}. ${day},`)
     return formattedDate;
 }
