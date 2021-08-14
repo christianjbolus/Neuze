@@ -240,7 +240,10 @@ function clearArticles(element) {
 }
 
 function formatDate(date) {
-    let formattedDate = new Date(date).toDateString().slice(4);
+    let newDate = new Date(date).toDateString().slice(4);
+    let month = newDate.match(/\w{3}/)
+    let day = newDate.match(/\d{2}/)
+    let formattedDate = newDate.replace(`${month} ${day}`, `${month}. ${day},`)
     return formattedDate;
 }
 
