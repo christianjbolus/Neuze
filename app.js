@@ -4,6 +4,7 @@ const searchForm = document.querySelector('#search-form');
 const searchBar = document.querySelector('input');
 const validationMessage = document.querySelector('.validation-msg');
 const articleContainer = document.querySelector('.article-container');
+const deleteButton = document.querySelector('#delete-btn')
 
 const API_KEY = 'fjc5OVaxAFce0CdOsFdAoV1Tu46z6XWC';
 
@@ -15,6 +16,7 @@ const URLS = {
 
 // Render top stories when app name clicked
 home.addEventListener('click', async () => {
+    deleteButton.classList.add('hidden')
     clearArticles(articleContainer);
     let topStories = await getTopStories()
     for (article of topStories) {
@@ -42,6 +44,7 @@ searchForm.addEventListener('submit', async e => {
     } else {
         let keyword = searchBar.value.trim();
         let searchResults = await getSearchResults(keyword)
+        deleteButton.classList.add('hidden')
         clearArticles(articleContainer);
         searchBar.value = '';
         for (let article of searchResults) {
@@ -91,7 +94,13 @@ myArticles.addEventListener('click', () => {
         renderArticleComponent(props)
     }
     listenForRenderModal();
+    deleteButton.classList.remove('hidden')
 });
+
+deleteButton.addEventListener('click', () => {
+    localStorage.clear()
+    window.location.reload()
+})
 
 async function getTopStories() {
     try {
@@ -231,7 +240,6 @@ function renderModal(element) {
         modalContainer.classList.add('active');
     }, 100);
 }
-
 
 function clearArticles(element) {
     while (element.lastChild) {
