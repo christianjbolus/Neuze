@@ -80,21 +80,26 @@ window.addEventListener('click', () => {
 myArticles.addEventListener('click', () => {
     let savedArticles = getSavedArticles();
     clearArticles(articleContainer);
-    for (article of savedArticles) {
-        let props = {
-            image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
-            title: article.title,
-            byline: article.byline,
-            pubDate: article.published_date,
-            leadPara: article.abstract,
-            url: article.url,
-            id: article.id,
-            saved: article?.saved
+    if (savedArticles.length) {
+        for (article of savedArticles) {
+            let props = {
+                image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+                title: article.title,
+                byline: article.byline,
+                pubDate: article.published_date,
+                leadPara: article.abstract,
+                url: article.url,
+                id: article.id,
+                saved: article?.saved
+            }
+            renderArticleComponent(props)
         }
-        renderArticleComponent(props)
+        listenForRenderModal();
+        deleteButton.classList.remove('hidden')
+    } else {
+        let message = `<p class="bookmark-msg">You have no articles bookmarked.</p>`
+        articleContainer.insertAdjacentHTML('afterbegin', message)
     }
-    listenForRenderModal();
-    deleteButton.classList.remove('hidden')
 });
 
 deleteButton.addEventListener('click', () => {
