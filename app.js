@@ -193,8 +193,7 @@ function saveArticle(article) {
 // Pull all articles from local storage and parse into objects
 function getSavedArticles() {
     let savedArticles = [];
-    let keys = Object.keys(localStorage)
-    for (let key of keys) {
+    for (let key of Object.keys(localStorage)) {
         savedArticles.push(JSON.parse(localStorage.getItem(key)));
     }
     return savedArticles;
@@ -291,6 +290,7 @@ function toggleClass(element, class1, class2) {
     }
 }
 
+// Render top stories on page load
 (async () => {
     let topStories = await getTopStories()
     for (article of topStories) {
