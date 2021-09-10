@@ -98,6 +98,7 @@ body {
 .delete {
     background-color: #ff0000;
     padding: 10px 15px;
+    margin-bottom: 20px;
 }
 
 .validation-msg {
