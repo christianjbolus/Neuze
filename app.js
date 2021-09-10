@@ -194,8 +194,8 @@ function saveArticle(article) {
 function getSavedArticles() {
     let savedArticles = [];
     let keys = Object.keys(localStorage)
-    for (let i = 0; i < keys.length; i++) {
-        savedArticles.push(JSON.parse(localStorage.getItem(keys[i])));
+    for (let key of keys) {
+        savedArticles.push(JSON.parse(localStorage.getItem(key)));
     }
     return savedArticles;
 }
