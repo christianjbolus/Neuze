@@ -174,7 +174,7 @@ function listenForBookmark() {
 function createArticleObject(element) {
     let articleObj = {
         id: element.id,
-        multimedia: [{ url: trimUrl(element.firstElementChild.style.backgroundImage) }],
+        multimedia: [{ url: element.firstElementChild.src }],
         title: element.lastElementChild.firstElementChild.textContent,
         byline: element.lastElementChild.children[1].textContent,
         published_date: element.lastElementChild.children[2].textContent,
@@ -202,15 +202,15 @@ function getSavedArticles() {
 function renderArticleComponent(props) {
     let component = `
         <div class="card">
-            <img class="card-img" src=${props.image ? prependDomain(props.image): './assets/NYT_logo.png'} />
-            <div class="card-body">
-                <h3 class="headline">${props.title}</h3>
-                <p class="hidden">${props.byline}</p>
-                <p class="publish-date">${formatDate(props.pubDate)}</p>
-                <p class="hidden">${props.leadPara}</p>
-                <p class="hidden">${props.url}</p>
-                <p class="hidden">${props.id}</p>
-                <p class="hidden">${props.saved}</p>
+            <img class="card-img" id="cImg" src=${props.image ? prependDomain(props.image): './assets/NYT_logo.png'} />
+            <div class="card-body" id="cBody">
+                <h3 class="headline" id="cHeadline">${props.title}</h3>
+                <p class="hidden" id="cByline">${props.byline}</p>
+                <p class="publish-date" id="cPubDate">${formatDate(props.pubDate)}</p>
+                <p class="hidden" id="cLeadPara">${props.leadPara}</p>
+                <p class="hidden" id="cUrl">${props.url}</p>
+                <p class="hidden" id="cId">${props.id}</p>
+                <p class="hidden" id="cSaved">${props.saved}</p>
             </div>
         </div>
         `;
@@ -219,18 +219,19 @@ function renderArticleComponent(props) {
 
 
 function renderModal(element) {
+    const { children } = element;
     let modal = `
         <div class="modal-container" onclick="void(0)">
-            <div class="modal" id="${element.lastElementChild.children[5].textContent}">
-                <img class="modal-img" src=${element.firstElementChild.src} />
+            <div class="modal" id="${children.cBody.children.cId.textContent}">
+                <img class="modal-img" src=${children.cImg.src} />
                 <div class="modal-body">
-                    <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
-                    <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
-                    <p class="modal-publish-date">${element.lastElementChild.children[2].textContent}</p>
-                    <p class="lead-paragraph">${element.lastElementChild.children[3].textContent}</p>
-                    <a href="${element.lastElementChild.children[4].textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
+                    <h3 class="modal-headline">${children.cBody.children.cHeadline.textContent}</h3>
+                    <h4 class="byline">${children.cBody.children.cByline.textContent}</h4>
+                    <p class="modal-publish-date">${children.cBody.children.cPubDate.textContent}</p>
+                    <p class="lead-paragraph">${children.cBody.children.cLeadPara.textContent}</p>
+                    <a href="${children.cBody.children.cUrl.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
                     <div class="modal-control">
-                        <i id="bookmark" class="${element.lastElementChild.children[6].textContent === 'true' ? 'fas' : 'far'} fa-bookmark"></i>
+                        <i id="bookmark" class="${children.cBody.children.cSaved.textContent === 'true' ? 'fas' : 'far'} fa-bookmark"></i>
                         <i id="close" class="fas fa-times" onclick="void(0)"></i>
                     </div>  
                 </div
