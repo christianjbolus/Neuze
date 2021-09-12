@@ -202,7 +202,7 @@ function getSavedArticles() {
 function renderArticleComponent(props) {
     let component = `
         <div class="card">
-        <img class="card-img" src=${props.image ? prependDomain(props.image): './assets/NYT_logo.png'} />
+            <img class="card-img" src=${props.image ? prependDomain(props.image): './assets/NYT_logo.png'} />
             <div class="card-body">
                 <h3 class="headline">${props.title}</h3>
                 <p class="hidden">${props.byline}</p>
@@ -222,7 +222,7 @@ function renderModal(element) {
     let modal = `
         <div class="modal-container" onclick="void(0)">
             <div class="modal" id="${element.lastElementChild.children[5].textContent}">
-                <div class="modal-img" style="background-image: ${element.firstElementChild.style.backgroundImage.replaceAll('"', "'")}"></div>
+                <img class="modal-img" src=${element.firstElementChild.src} />
                 <div class="modal-body">
                     <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
                     <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
