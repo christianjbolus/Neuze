@@ -172,14 +172,15 @@ function listenForBookmark() {
 
 // Create object and store article data
 function createArticleObject(element) {
+    const { id, children } = element
     let articleObj = {
-        id: element.id,
-        multimedia: [{ url: element.firstElementChild.src }],
-        title: element.lastElementChild.firstElementChild.textContent,
-        byline: element.lastElementChild.children[1].textContent,
-        published_date: element.lastElementChild.children[2].textContent,
-        abstract: element.lastElementChild.children[3].textContent,
-        url: element.lastElementChild.children[4].href,
+        id: id,
+        multimedia: [{ url: children.mImg.src }],
+        title: children.mBody.children.mHeadline.textContent,
+        byline: children.mBody.children.mByline.textContent,
+        published_date: children.mBody.children.mPubDate.textContent,
+        abstract: children.mBody.children.mLeadPara.textContent,
+        url: children.mBody.children.mUrl.href,
         saved: true
     };
     return articleObj;
@@ -223,13 +224,13 @@ function renderModal(element) {
     let modal = `
         <div class="modal-container" onclick="void(0)">
             <div class="modal" id="${children.cBody.children.cId.textContent}">
-                <img class="modal-img" src=${children.cImg.src} />
-                <div class="modal-body">
-                    <h3 class="modal-headline">${children.cBody.children.cHeadline.textContent}</h3>
-                    <h4 class="byline">${children.cBody.children.cByline.textContent}</h4>
-                    <p class="modal-publish-date">${children.cBody.children.cPubDate.textContent}</p>
-                    <p class="lead-paragraph">${children.cBody.children.cLeadPara.textContent}</p>
-                    <a href="${children.cBody.children.cUrl.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
+                <img class="modal-img" id="mImg" src=${children.cImg.src} />
+                <div class="modal-body" id="mBody">
+                    <h3 class="modal-headline" id="mHeadline">${children.cBody.children.cHeadline.textContent}</h3>
+                    <h4 class="byline" id="mByline">${children.cBody.children.cByline.textContent}</h4>
+                    <p class="modal-publish-date" id="mPubDate">${children.cBody.children.cPubDate.textContent}</p>
+                    <p class="lead-paragraph" id="mLeadPara">${children.cBody.children.cLeadPara.textContent}</p>
+                    <a id="mUrl" href="${children.cBody.children.cUrl.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
                     <div class="modal-control">
                         <i id="bookmark" class="${children.cBody.children.cSaved.textContent === 'true' ? 'fas' : 'far'} fa-bookmark"></i>
                         <i id="close" class="fas fa-times" onclick="void(0)"></i>
