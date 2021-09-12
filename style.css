@@ -145,8 +145,8 @@ body {
 .card-img {
     height: 100px;
     width: 125px;
-    background-size: cover;
-    background-position: center;
+    object-fit: cover;
+    object-position: center;
     border-radius: 5px;
 }
 

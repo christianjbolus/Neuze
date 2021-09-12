@@ -202,7 +202,7 @@ function getSavedArticles() {
 function renderArticleComponent(props) {
     let component = `
         <div class="card">
-            <div class="card-img" style="background-image: url('${props.image ? prependDomain(props.image): './assets/NYT_logo.png'}')"></div>
+        <img class="card-img" src=${props.image ? prependDomain(props.image): './assets/NYT_logo.png'} />
             <div class="card-body">
                 <h3 class="headline">${props.title}</h3>
                 <p class="hidden">${props.byline}</p>
