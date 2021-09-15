@@ -22,6 +22,7 @@ home.addEventListener('click', async () => {
     for (article of topStories) {
         let props = {
             image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            alt: article.multimedia[0]?.caption,
             title: article.title,
             byline: article.byline,
             pubDate: article.published_date,
@@ -50,6 +51,7 @@ searchForm.addEventListener('submit', async e => {
         for (let article of searchResults) {
             let props = {
                 image: article.multimedia[0]?.url,
+                alt: article.multimedia[0]?.caption ? article.multimedia[0]?.caption : '',
                 title: article.headline.main,
                 byline: article.byline.original,
                 pubDate: article.pub_date,
@@ -84,6 +86,7 @@ myArticles.addEventListener('click', () => {
         for (article of savedArticles) {
             let props = {
                 image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+                alt: article.multimedia[0]?.caption,
                 title: article.title,
                 byline: article.byline,
                 pubDate: article.published_date,
@@ -121,6 +124,7 @@ async function getTopStories() {
 async function getSearchResults(keyword) {
     try {
         let reqUrl = buildUrl(URLS.search, keyword);
+        console.log(reqUrl)
         const res = await axios.get(reqUrl);
         let data = res.data.response.docs;
         if (!data[0]) renderError();
@@ -172,14 +176,15 @@ function listenForBookmark() {
 
 // Create object and store article data
 function createArticleObject(element) {
+    const { id, children } = element
     let articleObj = {
-        id: element.id,
-        multimedia: [{ url: trimUrl(element.firstElementChild.style.backgroundImage) }],
-        title: element.lastElementChild.firstElementChild.textContent,
-        byline: element.lastElementChild.children[1].textContent,
-        published_date: element.lastElementChild.children[2].textContent,
-        abstract: element.lastElementChild.children[3].textContent,
-        url: element.lastElementChild.children[4].href,
+        id: id,
+        multimedia: [{ url: children.mImg.src, caption: children.mImg.alt }],
+        title: children.mBody.children.mHeadline.textContent,
+        byline: children.mBody.children.mByline.textContent,
+        published_date: children.mBody.children.mPubDate.textContent,
+        abstract: children.mBody.children.mLeadPara.textContent,
+        url: children.mBody.children.mUrl.href,
         saved: true
     };
     return articleObj;
@@ -202,15 +207,15 @@ function getSavedArticles() {
 function renderArticleComponent(props) {
     let component = `
         <div class="card">
-            <div class="card-img" style="background-image: url('${props.image ? prependDomain(props.image): './assets/NYT_logo.png'}')"></div>
-            <div class="card-body">
-                <h3 class="headline">${props.title}</h3>
-                <p class="hidden">${props.byline}</p>
-                <p class="publish-date">${formatDate(props.pubDate)}</p>
-                <p class="hidden">${props.leadPara}</p>
-                <p class="hidden">${props.url}</p>
-                <p class="hidden">${props.id}</p>
-                <p class="hidden">${props.saved}</p>
+            <img class="card-img" id="cImg" src=${props.image ? prependDomain(props.image): './assets/NYT_logo.png'} alt="${props.alt}" />
+            <div class="card-body" id="cBody">
+                <h3 class="headline" id="cHeadline">${props.title}</h3>
+                <p class="hidden" id="cByline">${props.byline}</p>
+                <p class="publish-date" id="cPubDate">${formatDate(props.pubDate)}</p>
+                <p class="hidden" id="cLeadPara">${props.leadPara}</p>
+                <p class="hidden" id="cUrl">${props.url}</p>
+                <p class="hidden" id="cId">${props.id}</p>
+                <p class="hidden" id="cSaved">${props.saved}</p>
             </div>
         </div>
         `;
@@ -219,18 +224,19 @@ function renderArticleComponent(props) {
 
 
 function renderModal(element) {
+    const { children } = element;
     let modal = `
         <div class="modal-container" onclick="void(0)">
-            <div class="modal" id="${element.lastElementChild.children[5].textContent}">
-                <div class="modal-img" style="background-image: ${element.firstElementChild.style.backgroundImage.replaceAll('"', "'")}"></div>
-                <div class="modal-body">
-                    <h3 class="modal-headline">${element.lastElementChild.firstElementChild.textContent}</h3>
-                    <h4 class="byline">${element.lastElementChild.children[1].textContent}</h4>
-                    <p class="modal-publish-date">${element.lastElementChild.children[2].textContent}</p>
-                    <p class="lead-paragraph">${element.lastElementChild.children[3].textContent}</p>
-                    <a href="${element.lastElementChild.children[4].textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
+            <div class="modal" id="${children.cBody.children.cId.textContent}">
+                <img class="modal-img" id="mImg" src=${children.cImg.src} alt="${children.cImg.alt}"/>
+                <div class="modal-body" id="mBody">
+                    <h3 class="modal-headline" id="mHeadline">${children.cBody.children.cHeadline.textContent}</h3>
+                    <h4 class="byline" id="mByline">${children.cBody.children.cByline.textContent}</h4>
+                    <p class="modal-publish-date" id="mPubDate">${children.cBody.children.cPubDate.textContent}</p>
+                    <p class="lead-paragraph" id="mLeadPara">${children.cBody.children.cLeadPara.textContent}</p>
+                    <a id="mUrl" href="${children.cBody.children.cUrl.textContent}" target="_blank"><button id="modal-btn" class="btn">Full Article</button></a>
                     <div class="modal-control">
-                        <i id="bookmark" class="${element.lastElementChild.children[6].textContent === 'true' ? 'fas' : 'far'} fa-bookmark"></i>
+                        <i id="bookmark" class="${children.cBody.children.cSaved.textContent === 'true' ? 'fas' : 'far'} fa-bookmark"></i>
                         <i id="close" class="fas fa-times" onclick="void(0)"></i>
                     </div>  
                 </div
@@ -296,6 +302,7 @@ function toggleClass(element, class1, class2) {
     for (article of topStories) {
         let props = {
             image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            alt: article.multimedia[0]?.caption,
             title: article.title,
             byline: article.byline,
             pubDate: article.published_date,
