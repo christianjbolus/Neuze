@@ -22,6 +22,7 @@ home.addEventListener('click', async () => {
     for (article of topStories) {
         let props = {
             image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            alt: article.multimedia[0]?.caption,
             title: article.title,
             byline: article.byline,
             pubDate: article.published_date,
@@ -50,6 +51,7 @@ searchForm.addEventListener('submit', async e => {
         for (let article of searchResults) {
             let props = {
                 image: article.multimedia[0]?.url,
+                alt: article.multimedia[0]?.caption ? article.multimedia[0]?.caption : '',
                 title: article.headline.main,
                 byline: article.byline.original,
                 pubDate: article.pub_date,
@@ -84,6 +86,7 @@ myArticles.addEventListener('click', () => {
         for (article of savedArticles) {
             let props = {
                 image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+                alt: article.multimedia[0]?.caption,
                 title: article.title,
                 byline: article.byline,
                 pubDate: article.published_date,
@@ -121,6 +124,7 @@ async function getTopStories() {
 async function getSearchResults(keyword) {
     try {
         let reqUrl = buildUrl(URLS.search, keyword);
+        console.log(reqUrl)
         const res = await axios.get(reqUrl);
         let data = res.data.response.docs;
         if (!data[0]) renderError();
@@ -175,7 +179,7 @@ function createArticleObject(element) {
     const { id, children } = element
     let articleObj = {
         id: id,
-        multimedia: [{ url: children.mImg.src }],
+        multimedia: [{ url: children.mImg.src, caption: children.mImg.alt }],
         title: children.mBody.children.mHeadline.textContent,
         byline: children.mBody.children.mByline.textContent,
         published_date: children.mBody.children.mPubDate.textContent,
@@ -203,7 +207,7 @@ function getSavedArticles() {
 function renderArticleComponent(props) {
     let component = `
         <div class="card">
-            <img class="card-img" id="cImg" src=${props.image ? prependDomain(props.image): './assets/NYT_logo.png'} />
+            <img class="card-img" id="cImg" src=${props.image ? prependDomain(props.image): './assets/NYT_logo.png'} alt="${props.alt}" />
             <div class="card-body" id="cBody">
                 <h3 class="headline" id="cHeadline">${props.title}</h3>
                 <p class="hidden" id="cByline">${props.byline}</p>
@@ -224,7 +228,7 @@ function renderModal(element) {
     let modal = `
         <div class="modal-container" onclick="void(0)">
             <div class="modal" id="${children.cBody.children.cId.textContent}">
-                <img class="modal-img" id="mImg" src=${children.cImg.src} />
+                <img class="modal-img" id="mImg" src=${children.cImg.src} alt="${children.cImg.alt}"/>
                 <div class="modal-body" id="mBody">
                     <h3 class="modal-headline" id="mHeadline">${children.cBody.children.cHeadline.textContent}</h3>
                     <h4 class="byline" id="mByline">${children.cBody.children.cByline.textContent}</h4>
@@ -298,6 +302,7 @@ function toggleClass(element, class1, class2) {
     for (article of topStories) {
         let props = {
             image: article.multimedia[0]?.url.replace('https://static01.nyt.com/', ''),
+            alt: article.multimedia[0]?.caption,
             title: article.title,
             byline: article.byline,
             pubDate: article.published_date,
